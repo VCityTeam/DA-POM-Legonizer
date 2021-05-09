@@ -1,5 +1,3 @@
-# DA-POM-Legonizer
-
 # Installation
 
 ## Step 1 - Cloner le dépôt
