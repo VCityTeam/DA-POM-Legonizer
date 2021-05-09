@@ -75,3 +75,22 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
 ## Triangulate
 
 ## Voxelizer
+
+# Utilisation
+### Exécution
+```sh
+cd DA-POM/x64/Debug
+./POM-Project.exe [MYFILE.gml] --voxelizer[OPTIONS] 
+```
+
+Exemple : 
+``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 -1 1 1 ```
+
+| Options | optionnel | type | par défaut | Commande |
+| --- | --- | --- | --- | --- |
+| Nombre de lancés de rayons de X | oui | int | 100 | mapSizeX |
+| Nombre de lancés de rayons de Y | oui | int | 100 | mapSizeY |
+| Nombre de découpage en hauteur | oui | int | 1 | horizontalStep |
+| Mode de remaillage | oui | int | 1 | gridmode|
+| Matériaux différents pour le sol et les bâtiments | oui | bool | 1 | material |
+
