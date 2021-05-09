@@ -3,7 +3,7 @@
 ## Step 1 - Cloner le dépôt
 
 ```bash
-git clone https://github.com/VCityTeam/DA-POM.git
+git clone https://github.com/VCityTeam/DA-POM-Legonizer.git
 ```
 
 ## Step 2 - Configuration du projet
@@ -16,6 +16,7 @@ Il ne reste plus qu'à indiquer à votre IDE les dépendances supplémentaires :
 ```
 libxml2.lib
 glu32.lib
+osg.lib
 ```
 
 #### Avec Visual Studio (testé avec vs2017 & vs2019)
@@ -35,14 +36,17 @@ Pour démarrer rapidement avec Visual Studio :
     * Dans "Répertoires Include", rajoutez les chemins ***absolu*** vers ces dossiers :
       * `./lib/libxml2-2.9.3/include/libxml2/`
       * `./lib/gdal-2.0.2/include/`
+      * `./lib/osg/include/`
     * Dans "Répertoires de bibliothèques", rajoutez les chemins ***absolu*** vers ces dossiers :
       * `./lib/libxml2-2.9.3/lib/`
       * `./lib/gdal-2.0.2/lib/`
+      * `./lib/osg/lib/`
   * Sous "Éditeurs de liens", sélectionnez "entrée"
     * Dans "Dépendances supplémentaires", rajoutez `libxml2.lib` et `glu32.lib`
 * Pour que l'executable ait accès aux `.dll`, rajoutez dans la variable d'environnement `Path` les chemins ***absolu*** vers ces dossiers :
   * `./lib/libxml2-2.9.3/bin/`
   * `./lib/gdal-2.0.2/bin/`
+  * `./lib/osg/bin/`
 * Pour passer des arguments en ligne de commande dans Visual Studio :
   * Click droit sur le nom du projet > Propriétés
   * Dans l'onglet "Débogage" > "Arguments de la commande" : mettre vos arguments (ex: emplacement de fichier .gml) en séparant les arguments par des espaces
