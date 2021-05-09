@@ -21,6 +21,7 @@ Il ne reste plus qu'à indiquer à votre IDE les dépendances supplémentaires :
 libxml2.lib
 glu32.lib
 osg.lib
+gdal_i.lib
 ```
 
 #### Avec Visual Studio (testé avec vs2017 & vs2019)
