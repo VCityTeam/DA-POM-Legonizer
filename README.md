@@ -10,7 +10,11 @@ git clone https://github.com/VCityTeam/DA-POM-Legonizer.git
 
 ### Windows
 
-La bibliothèque [LibXML2](http://www.xmlsoft.org/index.html) est fournie dans le dossier [lib/](./lib). Pour résoudre les directives d'includes `#include <libxml/xxx.h>`, il faut indiquer à votre IDE le chemin vers `./lib/libxml2-2.9.3/include/libxml2/` ainsi que le chemin vers les `.lib` : `./lib/libxml2-2.9.3/lib/`.
+* La bibliothèque [LibXML2](http://www.xmlsoft.org/index.html) est fournie dans le dossier [lib/libxml2-2.9.3](./lib/libxml2-2.9.3).
+* La bibliothèque [OSG](http://www.openscenegraph.org/) est fournie dans le dossier [lib/osg](./lib/osg).
+* La bibliothèque [GDAL](https://gdal.org/) est fournie dans le dossier [lib/gdal-2.0.2](./lib/gdal-2.0.2).
+
+Pour résoudre les directives d'includes comme par exemple : `#include <libxml/xxx.h>`, il faut indiquer à votre IDE le chemin vers `./lib/libxml2-2.9.3/include/libxml2/` ainsi que le chemin vers les `.lib` : `./lib/libxml2-2.9.3/lib/`.
 
 Il ne reste plus qu'à indiquer à votre IDE les dépendances supplémentaires :
 ```
@@ -42,7 +46,7 @@ Pour démarrer rapidement avec Visual Studio :
       * `./lib/gdal-2.0.2/lib/`
       * `./lib/osg/lib/`
   * Sous "Éditeurs de liens", sélectionnez "entrée"
-    * Dans "Dépendances supplémentaires", rajoutez `libxml2.lib` et `glu32.lib`
+    * Dans "Dépendances supplémentaires", rajoutez `libxml2.lib`, `glu32.lib` et `osg.lib`.
 * Pour que l'executable ait accès aux `.dll`, rajoutez dans la variable d'environnement `Path` les chemins ***absolu*** vers ces dossiers :
   * `./lib/libxml2-2.9.3/bin/`
   * `./lib/gdal-2.0.2/bin/`
@@ -50,7 +54,7 @@ Pour démarrer rapidement avec Visual Studio :
 * Pour passer des arguments en ligne de commande dans Visual Studio :
   * Click droit sur le nom du projet > Propriétés
   * Dans l'onglet "Débogage" > "Arguments de la commande" : mettre vos arguments (ex: emplacement de fichier .gml) en séparant les arguments par des espaces
-
+* Si jamais vous avez une erreur de redefinition de type : `Error 13 error C2086: 'int APIENTRY' : redefinition C:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\include\GL\gl.h 1153`. Ajouté dans la page de propriétés du projet à l'onglet "C/C++" > "Préprocesseur" > "Définitions de préprocesseur" : `WIN32`.
 ### Linux
 
 Si vous n'avez pas [LibXML2](http://www.xmlsoft.org/index.html) d'installé : (sur Ubuntu)
@@ -63,3 +67,8 @@ Le répertoire d'include de la bibliothèque sera probablement : `/usr/include/l
 
 Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuration des directives d'include, arguments de la ligne de commande, etc sera spécifique à votre IDE.
 
+# Modules
+
+## Triangulate
+
+## Voxelizer
