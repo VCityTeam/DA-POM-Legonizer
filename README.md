@@ -91,6 +91,12 @@ Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de 
 
 # Utilisation
 ### Exécution
+#### Triangulate
+```sh
+cd DA-POM-Legonizer/x64/Debug
+./<executable> [MYFILE.gml] --triangulate
+```
+#### Voxelizer
 ```sh
 cd DA-POM/x64/Debug
 ./POM-Project.exe [MYFILE.gml] --voxelizer[OPTIONS] 
