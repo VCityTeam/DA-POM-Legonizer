@@ -78,6 +78,7 @@ Le but de ce module est de créer une liste de triangle à partir d'un fichier .
 ### Fonctionnement 
 Une fois le fichier parsé nous obtenons un objet `CityModel`. Cet objet nous allons le parcourir jusqu’au polygone comme vous pouvez le voir ci-dessous. À partir du `
 Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de sommets pour construire nos triangles afin de les ajouter notre liste de triangle.
+<img src="https://github.com/VCityTeam/DA-POM-Legonizer/blob/main/documentation/screenshots/triangulate/Schema.png">
 ### Fonctions
 | Nom | Paramètre | Commentaire |
 | --- | --- | --- |
