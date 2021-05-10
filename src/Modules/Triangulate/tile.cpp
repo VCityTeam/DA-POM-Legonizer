@@ -107,51 +107,7 @@ ion") << std::endl;
         //std::cout << citygmlmodel->getEnvelope() << std::endl;
 
         m_citygmlFilePath = filepath;
-
-        //FIXME: remove following commented out code
-        // create osg geometry
-        /*size_t pos = filepath.find_last_of("/\\");
-        std::string path = filepath.substr(0, pos);
-        ReaderOsgCityGML readerOsgGml(path);
-        readerOsgGml.m_settings.m_useTextures = app().getSettings().m_loadTextures;*/
-
-        /*citygml::CityObjects& cityObjects = m_root->getCityObjectsRoots();
-        citygml::CityObjects::iterator it = cityObjects.begin();
-        for( ; it != cityObjects.end(); ++it)
-        {
-            loadRec(*it, readerOsgGml);
-        }*/
-
-        ////////////////////////////////////////////
-
-
-        /*citygml::CityObjectsMap& cityObjects = citygmlmodel->getCityObjectsMap();
-        citygml::CityObjectsMap::iterator it = cityObjects.begin();
-        for( ; it != cityObjects.end(); ++it)
-        {
-            citygml::CityObjects& cityObject = it->second;
-            citygml::CityObjects::iterator itObj = cityObject.begin();
-            for( ; itObj != cityObject.end(); ++itObj)
-            {
-                osg::ref_ptr<osg::Group> node = readerOsgGml.createCityObject(*itObj);
-                //node->setUserDataContainer(new osg::DefaultUserDataContainer);
-                int yearOfConstruction;
-                int yearOfDemolition;
-                std::istringstream((*itObj)->getAttribute("yearOfConstruction")) >> yearOfConstruction;
-                std::istringstream((*itObj)->getAttribute("yearOfDemolition")) >> yearOfDemolition;
-                node->setUserValue("yearOfConstruction", yearOfConstruction);
-                node->setUserValue("yearOfDemolition", yearOfDemolition);
-                node->getUserValue("yearOfConstruction", yearOfConstruction);
-                node->getUserValue("yearOfDemolition", yearOfDemolition);
-                std::cout << "yearOfConstruction : " << yearOfConstruction << std::endl;
-                std::cout << "yearOfDemolition : " << yearOfDemolition << std::endl;
-                std::cout << "yearOfConstruction2 : " << (*itObj)->getAttribute("yearOfConstruction") << std::endl;
-                std::cout << "yearOfDemolition2 : " << (*itObj)->getAttribute("yearOfDemolition") << std::endl;
-                //(*itObj)->getOsgNode() = node;
-                (*itObj)->setOsgNode(node);
-            }
-        }*/
-    
+  
         // set tile name
         static int id = 0;
         std::stringstream ss;

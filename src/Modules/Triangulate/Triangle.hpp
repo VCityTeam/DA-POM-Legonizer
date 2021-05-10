@@ -42,7 +42,6 @@ struct Triangle
 
 /**
 *	A list of triangle
-*
 */
 struct TriangleList
 {
@@ -59,26 +58,17 @@ struct TriangleList
 };
 
 /**
-*	@brief Build list of triangle from a CityGML building tile
-*	@param tile CityGML tile from which we want the triangle list
-*	@param viewpoint Data about the viewpoint we are rendering
-*	@param objectType The type of cityobject to load
-*   @param cityObjId The id of city object to load.
-*          Default = "" (i.e. all cityobjects of the tile are loaded)
-*   @param zMin A minimum z value of triangles to load
-*          (if all vertices of the triangle are below this zMin value, triangle is not loaded)
-*          Default = -10000.0
-*	@return The list of triangle from the CityGML tile
+*	@brief Construit la liste de triangle a partir d'un CITYMODEL
+*	@param CityModel obtenu en parsant notre fichier .gml
+*	@return La liste de triangle 
 */
-
-/*TriangleList* BuildTriangleList(
-  const citygml::CityModel& cityModel,
-  //const std::string& tilefilename,
-  const citygml::CityObjectsType& objectType
-  //const std::string& cityObjId = "",
-  //const double& zMin = -10000.0
-);*/
 TriangleList* BuildListTriangle(const citygml::CityModel* cityModel);
+
+/**
+*	@brief Construit la liste de triangle a partir du fichier .gml
+*	@param fichier .gml
+*	@return La liste de triangle
+*/
 TriangleList* BuildListTriangleTile(std::string& gmlFilename);
 
 #endif

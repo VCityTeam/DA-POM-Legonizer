@@ -41,21 +41,18 @@ TriangleList::~TriangleList()
 TriangleList* BuildListTriangle(const citygml::CityModel* cityModel) {
 
     std::vector<Triangle*> triangles;
-	for (citygml::CityObject* obj : cityModel->getCityObjectsRoots()) //For each city object
+	for (citygml::CityObject* obj : cityModel->getCityObjectsRoots()) // Pour chaque cityobject
     {
-		if (obj->getType() == citygml::COT_Building) //We only take building or terrain
+		if (obj->getType() == citygml::COT_Building) // On prends que le type Building
 		{
-		    for (citygml::CityObject* object : obj->getChildren())//On parcourt les objets (Wall, Roof, ...) du batiment
-		        for (citygml::Geometry* Geometry : object->getGeometries()) //pour chaque geometrie
+		    for (citygml::CityObject* object : obj->getChildren())// On parcourt les objets (Wall, Roof, ...) du batiment
+		        for (citygml::Geometry* Geometry : object->getGeometries())//pour chaque geometrie
 		            for (citygml::Polygon* PolygonCityGML : Geometry->getPolygons()) //Pour chaque polygone
 		            {
                         const std::vector<TVec3d>& vert = PolygonCityGML->getVertices();
-                        //const std::vector<unsigned int>& ind = (const std::vector<unsigned int>)vert.size();
                         const std::vector<unsigned int>& ind = PolygonCityGML->getIndices();
-
-                        //std::cout <<ind.size() << std::endl;
 						
-                        for (unsigned int i = 0; i < ind.size() / 3; i++)//Push all triangle of the polygon in our list
+                        for (unsigned int i = 0; i < ind.size() / 3; i++)//ajoute tout les triangles du polygone dans notre liste 
                         {
                             TVec3d a = vert[ind[i * 3 + 0]];
                             TVec3d b = vert[ind[i * 3 + 1]];
@@ -70,17 +67,18 @@ TriangleList* BuildListTriangle(const citygml::CityModel* cityModel) {
                             triangles.push_back(t);
                         }
                     }
-        } 
+        }
+        // #CityObjectType
+        // Nous vérifions si l'objet de la ville actuelle est du même type que l'objet de la ville recherché donné dans le paramètre
         else if ((obj->getType() == citygml::COT_SolitaryVegetationObject) || (obj->getType() == citygml::COT_TINRelief) ||(obj->getType() == citygml::COT_WaterBody))
         {
             for (citygml::Geometry* Geometry : obj->getGeometries()) //pour chaque geometrie
                 for (citygml::Polygon* PolygonCityGML : Geometry->getPolygons()) //Pour chaque polygone
                 {
-                    //Get triangle list
                     const std::vector<TVec3d>& vert = PolygonCityGML->getVertices();
                     const std::vector<unsigned int>& ind = PolygonCityGML->getIndices();
 
-                    for (unsigned int i = 0; i < ind.size() / 3; i++)//Push all triangle of the polygon in our list
+                    for (unsigned int i = 0; i < ind.size() / 3; i++)//ajoute tout les triangles du polygone dans notre liste 
                     {
                         TVec3d a = vert[ind[i * 3 + 0]];
                         TVec3d b = vert[ind[i * 3 + 1]];
@@ -107,10 +105,10 @@ TriangleList* BuildListTriangleTile(std::string& gmlFilename)
 
     citygml::CityModel* model = tile->getCityModel();
 
-    for (citygml::CityObject* obj : model->getCityObjectsRoots()) //For each city object
+    for (citygml::CityObject* obj : model->getCityObjectsRoots()) //Pour chaque cityobject
     {
 
-        if (obj->getType() == citygml::COT_Building) //We only take building or terrain
+        if (obj->getType() == citygml::COT_Building) // On prends que le type Building
         {
             for (citygml::CityObject* object : obj->getChildren())//On parcourt les objets (Wall, Roof, ...) du batiment
                 for (citygml::Geometry* Geometry : object->getGeometries()) //pour chaque geometrie
@@ -120,13 +118,11 @@ TriangleList* BuildListTriangleTile(std::string& gmlFilename)
                         const std::vector<TVec3d>& vert = PolygonCityGML->getVertices();
                         const std::vector<unsigned int>& ind = PolygonCityGML->getIndices();
 
-                        for (unsigned int i = 0; i < ind.size() / 3; i++)//Push all triangle of the polygon in our list
+                        for (unsigned int i = 0; i < ind.size() / 3; i++)//ajoute tout les triangles du polygone dans notre liste 
                         {
                             TVec3d a = vert[ind[i * 3 + 0]];
                             TVec3d b = vert[ind[i * 3 + 1]];
                             TVec3d c = vert[ind[i * 3 + 2]];
-
-                            // If all vertices of current triangle are below given zMin
 
                             Triangle* t = new Triangle(a, b, c);
                             t->subObjectType = object->getType();
@@ -140,8 +136,7 @@ TriangleList* BuildListTriangleTile(std::string& gmlFilename)
                     }
         }
         // #CityObjectType
-        // We check if the current cityobject is the same type of the wanted type of cityobject given in parameter
-        // Exemple : (obj->getType() == citygml::COT_<MyType> && objectType == citygml::COT_<MyType>
+        // Nous vérifions si l'objet de la ville actuelle est du même type que l'objet de la ville recherché donné dans le paramètre
         else if ((obj->getType() == citygml::COT_SolitaryVegetationObject) || (obj->getType() == citygml::COT_TINRelief) || (obj->getType() == citygml::COT_WaterBody))
         {
             for (citygml::Geometry* Geometry : obj->getGeometries()) //pour chaque geometrie
@@ -151,13 +146,11 @@ TriangleList* BuildListTriangleTile(std::string& gmlFilename)
                     const std::vector<TVec3d>& vert = PolygonCityGML->getVertices();
                     const std::vector<unsigned int>& ind = PolygonCityGML->getIndices();
 
-                    for (unsigned int i = 0; i < ind.size() / 3; i++)//Push all triangle of the polygon in our list
+                    for (unsigned int i = 0; i < ind.size() / 3; i++)//ajoute tout les triangles du polygone dans notre liste 
                     {
                         TVec3d a = vert[ind[i * 3 + 0]];
                         TVec3d b = vert[ind[i * 3 + 1]];
                         TVec3d c = vert[ind[i * 3 + 2]];
-
-                        // If all vertices of current triangle are below given zMin
 
                         Triangle* t = new Triangle(a, b, c);
                         t->objectType = obj->getType();

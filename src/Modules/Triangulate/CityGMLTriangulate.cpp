@@ -2,8 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-CityGMLTriangulate::CityGMLTriangulate(string name):Module(name){}
-
+CityGMLTriangulate::CityGMLTriangulate(std::string name) : Module(name) {}
 
 
 void CityGMLTriangulate::initTriangleList(const citygml::CityModel* cityModel) {
@@ -25,7 +24,7 @@ TriangleList* CityGMLTriangulate::getTriangleList()
 }
 
 void CityGMLTriangulate::printBaseTriangleList(TriangleList* triangleList) {
-	std::ofstream myfile;
+    std::ofstream myfile;
 	myfile.open("base.obj");
 	myfile.clear();
 	myfile << "# Blender v2.91.2 OBJ File: ''" << std::endl;
@@ -47,8 +46,6 @@ void CityGMLTriangulate::printBaseTriangleList(TriangleList* triangleList) {
 		myfile << "vn " << triangleList->triangles.at(i)->GetNormal().x << " " << triangleList->triangles.at(i)->GetNormal().y << " " << triangleList->triangles.at(i)->GetNormal().z << std::endl;
 	}
 	
-	
-
 	myfile << "usemtl Material.001" << std::endl;
 	myfile << "s off" << std::endl;
 	for (int i = 0; i < triangleList->triangles.size(); i++) {
