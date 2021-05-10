@@ -102,8 +102,8 @@ cd DA-POM-Legonizer/x64/Debug
 ```
 #### Voxelizer
 ```sh
-cd DA-POM/x64/Debug
-./POM-Project.exe [MYFILE.gml] --voxelizer[OPTIONS] 
+cd DA-POM-Legonizer/x64/Debug
+./<executable> [MYFILE.gml] --voxelizer[OPTIONS] 
 ```
 
 Exemple : 
