@@ -90,6 +90,18 @@ Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de 
 | printBaseTriangleList | ListTriangle | Créer un .obj afin de visualiser notre liste de triangle. |
 | get[X/Y/Z][Max/Min] |  | Retourne la valeur maximale et minimale sur l’axe X, Y, Z d’une liste de triangle. |
 ### Screnshots
+<p align="center">Mairie de Vaulx-en-Velin</p>
+<p align="center">
+<img src="https://github.com/VCityTeam/DA-POM-Legonizer/blob/main/documentation/screenshots/triangulate/MAIRIE_VAULX_EN_VELIN.PNG" width=50% >
+</p>
+<p align="center">Eglise d'ecully</p>
+<p align="center">
+<img src="https://github.com/VCityTeam/DA-POM-Legonizer/blob/main/documentation/screenshots/triangulate/EGLISE_ECULLY.PNG" width=50%>
+</p>
+<p align="center">Villeurbanne</p>
+<p align="center">
+<img src="https://github.com/VCityTeam/DA-POM-Legonizer/blob/main/documentation/screenshots/triangulate/Villeurbanne.PNG" width=50%>
+</p>
 
 ## Voxelizer
 
@@ -102,8 +114,8 @@ cd DA-POM-Legonizer/x64/Debug
 ```
 #### Voxelizer
 ```sh
-cd DA-POM/x64/Debug
-./POM-Project.exe [MYFILE.gml] --voxelizer[OPTIONS] 
+cd DA-POM-Legonizer/x64/Debug
+./<executable> [MYFILE.gml] --voxelizer[OPTIONS] 
 ```
 
 Exemple : 
