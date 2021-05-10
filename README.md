@@ -77,8 +77,11 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
 Le but de ce module est de créer une liste de triangle à partir d'un fichier .gml ([Geography Markup Language](https://fr.wikipedia.org/wiki/Geography_Markup_Language)) qui doit être parsé soit par le module parser soit par la fonction `TileTriangleList`. Cette liste nous sera utile par la suite pour le lancer de rayon.
 ### Fonctionnement 
 Une fois le fichier parsé nous obtenons un objet `CityModel`. Cet objet nous allons le parcourir jusqu’au polygone comme vous pouvez le voir ci-dessous. À partir du `
-Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de sommets pour construire nos triangles afin de les ajouter notre liste de triangle.
-<img src="https://github.com/VCityTeam/DA-POM-Legonizer/blob/main/documentation/screenshots/triangulate/Schema.png">
+Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de sommets pour construire nos triangles afin de les ajouter notre liste de triangle. </br>
+<p align="center">
+<img src="https://github.com/VCityTeam/DA-POM-Legonizer/blob/main/documentation/screenshots/triangulate/schema.png" width=40%>
+</p>
+
 ### Fonctions
 | Nom | Paramètre | Commentaire |
 | --- | --- | --- |
