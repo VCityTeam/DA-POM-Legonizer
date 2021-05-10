@@ -15,10 +15,7 @@ CLI::CLI(int argc, char* argv[])
 
 	_cliParams.push_back(CLIParam("--help", "Prints usage."));
 	_cliParams.push_back(CLIParam("--debug", "Turn on debug mode."));
-	_cliParams.push_back(CLIParam("--obj", "Convert a CityGML file into OBJ file.", std::vector<bool>({ 0 })));
 	_cliParams.push_back(CLIParam("--triangulate", "Triangulate CityGML object"));
-	_cliParams.push_back(CLIParam("--cut", "Cut a CityGML file into smaller CityGML file or OBJ file.", std::vector<bool>({ 1, 1, 1, 1, 0, 0 })));
-	_cliParams.push_back(CLIParam("--split", "Split a CityGML file into multiple OBJ files.", std::vector<bool>({ 1, 1, 0 })));
 	_cliParams.push_back(CLIParam("--voxelizer", "Description", std::vector<bool>({ 1, 1, 1, 1, 1, 1 })));
 
 }
@@ -114,41 +111,6 @@ void CLI::processCmdLine()
 			else if (name == "--debug") {
 				std::cout << "[NOT IMPLEMENTED YET] --debug" << std::endl;
 			}
-			else if (name == "--obj") {
-				// Is there an optional parameter ?
-				if (_cliParams[i]._args.size() > 0) {
-					std::string arg = _cliParams[i]._args[0];
-					_citygmltool->createOBJ(_gmlFilename, arg);
-				}
-				else {
-					// No optional parameter found
-					_citygmltool->createOBJ(_gmlFilename);
-				}
-				
-			}
-			else if (name == "--cut") {
-				//TODO: handle optional parameter (output location)
-
-				_citygmltool->gmlCut(
-					_gmlFilename,
-					std::stod(_cliParams[i]._args[0]),
-					std::stod(_cliParams[i]._args[1]),
-					std::stod(_cliParams[i]._args[2]),
-					std::stod(_cliParams[i]._args[3]),
-					(_cliParams[i]._args.size() > 4) ?		// if optional "CUT" or "ASSIGN" is present
-						((_cliParams[i]._args[4] == "CUT") ? false : true)
-						: true
-				);
-			}
-			else if (name == "--split") {
-				//TODO: handle stoi exception with invalid argument
-				//TODO: handle optional output parameter
-				_citygmltool->gmlSplit(
-					_gmlFilename,
-					std::stoi(_cliParams[i]._args[0]),		// tileX
-					std::stoi(_cliParams[i]._args[1])		// tileY
-				);
-			}
 			else if (name == "--voxelizer") {
 				if (_cliParams[i]._args.size() >= 6) {
 					_citygmltool->voxelize(
@@ -163,7 +125,6 @@ void CLI::processCmdLine()
 					std::cout << "Le nombre de parametre n'est pas correct" << std::endl;
 				}
 			}
-
 			else if (name == "--triangulate") {
 				_citygmltool->triangulate(_gmlFilename);
 			}
