@@ -73,6 +73,11 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
 ## Parser 
 
 ## Triangulate
+### Exécution
+```sh
+cd DA-POM-Legonizer/x64/Debug
+./<executable> [MYFILE.gml] --triangulate
+```
 ### Objectif
 Le but de ce module est de créer une liste de triangle à partir d'un fichier .gml ([Geography Markup Language](https://fr.wikipedia.org/wiki/Geography_Markup_Language)) qui doit être parsé soit par le module parser soit par la fonction `TileTriangleList`. Cette liste nous sera utile par la suite pour le lancer de rayon.
 ### Fonctionnement 
@@ -107,11 +112,6 @@ Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de 
 
 # Utilisation
 ### Exécution
-#### Triangulate
-```sh
-cd DA-POM-Legonizer/x64/Debug
-./<executable> [MYFILE.gml] --triangulate
-```
 #### Voxelizer
 ```sh
 cd DA-POM-Legonizer/x64/Debug
