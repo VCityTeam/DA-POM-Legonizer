@@ -18,7 +18,7 @@ struct Voxelizer : public Module
         /*
         * Initialise les variables
         */
-        void init(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material, bool mode);
+        void init(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material);
 
         /* 
         * Lancer de rayons et constitution de la heightmap
@@ -33,7 +33,7 @@ struct Voxelizer : public Module
         /*
         * Transforme les données en un fichier .obj
         */
-        void printObj();
+        void printObj(std::string);
 
         /*
         *
@@ -86,7 +86,7 @@ struct Voxelizer : public Module
         */
         int horizontalStep = 250;
 
-        int sizeStep ;
+        double sizeStep ;
 
         int gridmode;
 

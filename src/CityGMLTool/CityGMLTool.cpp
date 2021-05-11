@@ -94,12 +94,12 @@ void CityGMLTool::parse(std::string & filename)
 	//}
 }
 
-void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gridmode, bool material, bool mode) {
+void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gridmode, bool material) {
 	std::cout << "hey" << std::endl;
 	Voxelizer* voxelizer = static_cast<Voxelizer*>(this->findModuleByName("voxelizer"));
 	CityGMLTriangulate* triangulate = static_cast<CityGMLTriangulate*>(this->findModuleByName("triangulate"));
 
-	voxelizer->init(mapSizeX, mapSizeY,horizontalStep, gridmode, material, mode);
+	voxelizer->init(mapSizeX, mapSizeY,horizontalStep, gridmode, material);
 	triangulate->initTriangleList(cityModel);
 	
 	triangulate->printBaseTriangleList(triangulate->getTriangleList());

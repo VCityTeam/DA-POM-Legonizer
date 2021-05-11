@@ -10,7 +10,7 @@ struct TileVoxel
     /* data */
     public:
     
-    int height;
+    double height;
     TileType type;
     Rectangleface top;
     std::vector<Rectangleface> right;

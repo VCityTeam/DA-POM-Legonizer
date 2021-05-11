@@ -24,7 +24,7 @@ public:
 
 	Module* findModuleByName(const std::string name);
 	void parse(std::string & filename);
-	void voxelize(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material, bool mode);
+	void voxelize(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material);
 	void triangulate(std::string& gmlFilename);
 
 private:

@@ -1,0 +1,34 @@
+
+/target/
+
+# Ignore les fichiers de configuration d'Eclipse
+.classpath
+.project
+.settings/
+
+# Ignore les fichiers de configuration d'Intellij
+.idea/
+*.iml
+*.iws
+
+# Ignore les fichiers produits par Maven pour ne versionner que le code,
+# pas les executables ou les logs.
+log/
+target/
+
+.VSCode/
+.vs
+.idea/
+
+
+/.vs
+/.vscode
+/x64/Debug
+/CppProperties.json
+*.sln
+*.vcxproj
+*.filters
+*.user
+data.gml
+/x64/
+
