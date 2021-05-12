@@ -23,12 +23,8 @@ public:
 	~CityGMLTool();
 
 	Module* findModuleByName(const std::string name);
-<<<<<<< HEAD
-	void parse(std::string & filename);
-	void voxelize(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material, std::string outPutNameFile, bool debug);
-=======
-	void voxelize(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material, std::string& filename);
->>>>>>> 57780e00953dcb4cc6213e82113705c844daf5e7
+
+	void voxelize(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material, std::string inputFileName, std::string outPutNameFile, bool debug);
 	void triangulate(std::string& gmlFilename);
 
 private:

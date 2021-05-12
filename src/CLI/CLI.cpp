@@ -15,13 +15,9 @@ CLI::CLI(int argc, char* argv[])
 
 	_cliParams.push_back(CLIParam("--help", "Prints usage."));
 	_cliParams.push_back(CLIParam("--debug", "Turn on debug mode."));
-<<<<<<< HEAD
 	_cliParams.push_back(CLIParam("--triangulate", "Triangulate CityGML object")); 
-	_cliParams.push_back(CLIParam("--voxelizer", "Voxelize a GML file", std::vector<bool>({ 1, 1, 1, 1, 1, 0})));
-=======
-	_cliParams.push_back(CLIParam("--triangulate", "Triangulate CityGML object"));
-	_cliParams.push_back(CLIParam("--voxelizer", "Description", std::vector<bool>({ 1, 1, 1, 1, 1})));
->>>>>>> 57780e00953dcb4cc6213e82113705c844daf5e7
+	_cliParams.push_back(CLIParam("--voxelizer", "Voxelize a GML file", std::vector<bool>({ 1, 1, 1, 1, 1, 1, 0})));
+
 
 }
 
@@ -116,7 +112,6 @@ void CLI::processCmdLine()
 				std::cout << "Debug mode enabled" << std::endl;
 			}
 			else if (name == "--voxelizer") {
-<<<<<<< HEAD
 				std::string output;
 				if (_cliParams[i]._args.size() == 6) {
 					std::string toMatch = ".obj";
@@ -125,19 +120,6 @@ void CLI::processCmdLine()
 						this->_gmlFilename = this->_argv[6];
 						std::cout << "Make sure your outPut nameFile end with '.obj'" << std::endl;
 					}
-=======
-				if (_cliParams[i]._args.size() >= 5) {
-					_citygmltool->voxelize(
-						std::stoi(_cliParams[i]._args[0]),
-						std::stoi(_cliParams[i]._args[1]),
-						std::stoi(_cliParams[i]._args[2]),
-						std::stoi(_cliParams[i]._args[3]),
-						std::stoi(_cliParams[i]._args[4]),
-						_gmlFilename);
-				}
-				else {
-					std::cout << "Le nombre de parametre n'est pas correct" << std::endl;
->>>>>>> 57780e00953dcb4cc6213e82113705c844daf5e7
 				}
 				if(_debugModule)
 					std::cout << "DEBUG MODE" << endl;
@@ -147,6 +129,7 @@ void CLI::processCmdLine()
 					std::stoi(_cliParams[i]._args[2]),
 					std::stoi(_cliParams[i]._args[3]),
 					std::stoi(_cliParams[i]._args[4]),
+					_gmlFilename,
 					_cliParams[i]._args[5],
 					_debugModule);
 			}
