@@ -67,12 +67,16 @@ void Voxelizer::computeHeightMap(CityGMLTriangulate* cityGMLTriangulate)
 		std::cout << "ly = " << ly << std::endl;
 	}
 
-	std::cout << std::endl << ":::::::::: Launching rays ::::::::::" << std::endl;
-
+	int nbrays = mapsize.x * mapsize.y;
+	int progressionPart = nbrays / 20;
+	std::cout << std::endl << ":::::::::: Launching "<< nbrays <<" rays ::::::::::" << std::endl;
 	std::vector<Ray*> rays;
 	//lancer un rayon sur chaque points d'un grille pr�d�fini
 	for (int i = 0; i <mapsize.x; i++) {
 		for (int j = 0; j< mapsize.y; j++) {
+			if ((j + i * mapsize.x) % progressionPart == 0)
+				std::cout << j + i * mapsize.x << " / " << nbrays << std::endl;
+
 			float divx = static_cast<float>((mapsize.x-1) - i) / static_cast<float>(mapsize.x);
 			float divy = static_cast<float>(j) / static_cast<float>(mapsize.y);
 			double posX = offsetX + (divx * lx);
@@ -82,11 +86,11 @@ void Voxelizer::computeHeightMap(CityGMLTriangulate* cityGMLTriangulate)
 			rays.push_back(new Ray(position, direction, j + (i * mapsize.y)));
 		}
 	}
-
+	std::cout << nbrays << " / " << nbrays << std::endl;
 
 	sizeStep = (zMax - zMin)/ horizontalStep;
 	if(debug)
-		std::cout << "sizeStep = " << sizeStep << std::endl;
+		std::cout <<std::endl<< "sizeStep = " << sizeStep << std::endl;
 	//Recup�rer les hit des points pour r�aliser une height map
 	std::vector<Hit*> hits = *RayTracing(cityGMLTriangulate->getTriangleList(), rays, false);
 	std::cout << ":::::::::: Iterating on Hit ( number of hit : "<< hits.size() <<" ) ::::::::::" << std::endl;
@@ -117,6 +121,25 @@ void Voxelizer::computeHeightMap(CityGMLTriangulate* cityGMLTriangulate)
 		}
 	}
 
+
+
+}
+
+void Voxelizer::printHeightMap(const std::string filename)
+{
+	std::cout << ":::::::::: Writing Heightmap in " << filename << "::::::::::" << std::endl;
+	std::ofstream myfile;
+	myfile.open(filename);
+	myfile.clear();
+	if (!filename.empty()) {
+		for (int i = 0; i < mapsize.y; i++) {
+			for (int j = 0; j < mapsize.x; j++) {
+				myfile << tiles.at(j + i * mapsize.x).height << ";";
+			}
+			myfile << std::endl;
+		}
+	}
+	myfile.close();
 }
 
 void Voxelizer::remesh()

@@ -35,6 +35,12 @@ struct Voxelizer : public Module
        */
         void computeHeightMap(CityGMLTriangulate* cityGMLTriangulate);
 
+        /**
+        *	@brief Print heigtMap in CSV
+        *	@param Filename.csv
+        */
+        void printHeightMap(const std::string);
+
         /*
         *   @brief Remesh with the heightmap
         */
@@ -42,7 +48,7 @@ struct Voxelizer : public Module
 
         /*
         *   @brief Print all the structure remesh in OBJ
-        *   @param Filename of the ouput
+        *   @param Filename.obj
         */
         void printObj(const std::string);
 

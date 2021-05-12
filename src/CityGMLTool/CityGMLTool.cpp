@@ -32,13 +32,13 @@ Module* CityGMLTool::findModuleByName(const std::string name)
 
 
 
-void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gridmode, bool material, std::string inPutFileName, std::string outPutFileName, bool debug) {
+void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gridmode, bool material, std::string inPutFileName, std::string outPutFileName, std::string fileNameCSV, bool debug) {
 
 	Voxelizer* voxelizer = static_cast<Voxelizer*>(this->findModuleByName("voxelizer"));
 	CityGMLTriangulate* triangulate = static_cast<CityGMLTriangulate*>(this->findModuleByName("triangulate"));
 
 	voxelizer->init(mapSizeX, mapSizeY,horizontalStep, gridmode, material, debug);
-	triangulate->initTriangleList(inPutFileName);
+	triangulate->initTriangleList(inPutFileName, debug);
 
 	
 	triangulate->printBaseTriangleList(triangulate->getTriangleList());
@@ -50,17 +50,17 @@ void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gr
 		std::cout << triangulate->getTriangleList()->triangles.at(0)->c << std::endl;
 	}*/
 
-
 	voxelizer->computeHeightMap(triangulate);
+	voxelizer->printHeightMap(fileNameCSV);
 	voxelizer->remesh();
 	voxelizer->printObj(outPutFileName);
 }
 
 
-void CityGMLTool::triangulate(std::string& filename) {
+void CityGMLTool::triangulate(std::string& filename, bool debug) {
 
 	CityGMLTriangulate* cityTriangulate = static_cast<CityGMLTriangulate*>(this->findModuleByName("triangulate"));
-	cityTriangulate->initTriangleList(filename);
+	cityTriangulate->initTriangleList(filename, debug);
 	cityTriangulate->printBaseTriangleList(cityTriangulate->getTriangleList());
 	std::cout << "Object triangulate creer !";	
 }	

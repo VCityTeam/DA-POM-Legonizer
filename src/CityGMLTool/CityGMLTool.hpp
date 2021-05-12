@@ -24,8 +24,8 @@ public:
 
 	Module* findModuleByName(const std::string name);
 
-	void voxelize(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material, std::string inputFileName, std::string outPutNameFile, bool debug);
-	void triangulate(std::string& gmlFilename);
+	void voxelize(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material, std::string inputFileName, std::string outPutNameFile, std::string fileNameCSV, bool debug);
+	void triangulate(std::string& gmlFilename, bool debug);
 
 private:
 	std::vector<Module*> modules;

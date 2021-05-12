@@ -10,8 +10,9 @@ void CityGMLTriangulate::initTriangleListCityModel(const citygml::CityModel* cit
 
 }
 
-void CityGMLTriangulate::initTriangleList(std::string& gmlfile) {
+void CityGMLTriangulate::initTriangleList(std::string& gmlfile, bool debug) {
     this->listTriangle = BuildListTriangleTile(gmlfile);
+    this->debug = debug;
     std::cout << ":::::::::: Triangle List Build ::::::::::" << std::endl;
 }
 
@@ -72,7 +73,8 @@ double CityGMLTriangulate::getXmin()
             xMin = listTriangle->triangles.at(i)->c.x;
         }
     }
-    std::cout << "xmin : " << (int)xMin << std::endl;
+    if(debug)
+        std::cout << "xmin : " << (int)xMin << std::endl;
     return xMin;
 }
 
@@ -90,7 +92,8 @@ double CityGMLTriangulate::getXmax()
             xMax = listTriangle->triangles.at(i)->c.x;
         }
     }
-    std::cout << "xmax : " << (int)xMax << std::endl;
+    if(debug)
+        std::cout << "xmax : " << (int)xMax << std::endl;
     return xMax;
 }
 
@@ -109,7 +112,8 @@ double CityGMLTriangulate::getYmin()
             yMin = listTriangle->triangles.at(i)->c.y;
         }
     }
-    std::cout << "ymin : " << (int)yMin << std::endl;
+    if(debug)
+        std::cout << "ymin : " << (int)yMin << std::endl;
     return yMin;
 }
 
@@ -128,7 +132,8 @@ double CityGMLTriangulate::getYmax()
             yMax = listTriangle->triangles.at(i)->c.y;
         }
     }
-    std::cout << "ymax : " << (int)yMax << std::endl;
+    if(debug)
+        std::cout << "ymax : " << (int)yMax << std::endl;
     return yMax;
 }
 
@@ -147,7 +152,8 @@ double CityGMLTriangulate::getZmin()
             zMin = listTriangle->triangles.at(i)->c.z;
         }
     }
-    std::cout << "zmin : " << (int)zMin << std::endl;
+    if(debug)
+        std::cout << "zmin : " << (int)zMin << std::endl;
     return zMin;
 }
 
@@ -166,6 +172,7 @@ double CityGMLTriangulate::getZmax()
             zMax = listTriangle->triangles.at(i)->c.z;
         }
     }
-    std::cout << "zmax : " << (int)zMax << std::endl;
+    if(debug)
+        std::cout << "zmax : " << (int)zMax << std::endl;
     return zMax;
 }

@@ -11,6 +11,7 @@ class CityGMLTriangulate : public Module {
     private:
 
         TriangleList* listTriangle;
+        bool debug;
 
     public:
 
@@ -30,7 +31,7 @@ class CityGMLTriangulate : public Module {
         *	@brief Initialise listTrianlge avec un fichier GML
         *	@param gmlFile est le fichier
         */
-        void initTriangleList(std::string& gmlfile);
+        void initTriangleList(std::string& gmlfile, bool debug);
 
         /**
         *	@brief Crée un .obj a partir de la liste de triangle
