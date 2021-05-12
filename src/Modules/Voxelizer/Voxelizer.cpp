@@ -12,16 +12,14 @@ Voxelizer::Voxelizer(std::string name) : Module(name)
 
 }
 
-void Voxelizer::init(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material)
+void Voxelizer::init(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material, bool debug)
 {
 	this->mapsize.x = mapSizeX;
 	this->mapsize.y = mapSizeY;
-	this->maxHeight = maxHeight;
-	this->minHeight = minHeight;
 	this->horizontalStep = horizontalStep;
-	this->offsetX = offsetX;
-	this->offsetY = offsetY;
 	this->material = material;
+	this->debug = debug;
+
 	for (int i = 0; i < mapSizeX; i++) {
 		for (int j = 0; j < mapSizeY; j++) {
 			tiles.push_back(TileVoxel(0.0));
@@ -49,20 +47,25 @@ void Voxelizer::init(int mapSizeX, int mapSizeY, int horizontalStep, int gridmod
 
 }
 
-void Voxelizer::compute(CityGMLTriangulate* cityGMLTriangulate)
+void Voxelizer::computeHeightMap(CityGMLTriangulate* cityGMLTriangulate)
 {
 
 
-	offsetX = cityGMLTriangulate->getXmin() - 2;
-	offsetY = cityGMLTriangulate->getYmin() - 2;
-	std::cout << std::fixed << "offSetX = " << offsetX << std::endl;
-	std::cout << std::fixed << "offSetY = " << offsetY << std::endl;
+	int offsetX = cityGMLTriangulate->getXmin() - 2;
+	int offsetY = cityGMLTriangulate->getYmin() - 2;
+
 	double lx = cityGMLTriangulate->getXmax() - offsetX + 2;
 	double ly = cityGMLTriangulate->getYmax() - offsetY + 2;
-	std::cout << "lx = " << lx << std::endl;
-	std::cout << "ly = " << ly << std::endl;	
+
 	double zMin = cityGMLTriangulate->getZmin();
 	double zMax = cityGMLTriangulate->getZmax();
+
+	if (debug) {
+		std::cout << std::fixed << "offSetX = " << offsetX << std::endl;
+		std::cout << std::fixed << "offSetY = " << offsetY << std::endl;
+		std::cout << "lx = " << lx << std::endl;
+		std::cout << "ly = " << ly << std::endl;
+	}
 
 	std::cout << std::endl << ":::::::::: Launching rays ::::::::::" << std::endl;
 
@@ -82,18 +85,13 @@ void Voxelizer::compute(CityGMLTriangulate* cityGMLTriangulate)
 
 
 	sizeStep = (zMax - zMin)/ horizontalStep;
-	std::cout << "sizeStep = " << sizeStep << std::endl;
+	if(debug)
+		std::cout << "sizeStep = " << sizeStep << std::endl;
 	//Recup�rer les hit des points pour r�aliser une height map
 	std::vector<Hit*> hits = *RayTracing(cityGMLTriangulate->getTriangleList(), rays, false);
 	std::cout << ":::::::::: Iterating on Hit ( number of hit : "<< hits.size() <<" ) ::::::::::" << std::endl;
 	for (Hit* hit : hits) {
 		double height = (float)(zMax-zMin) - hit->distance;
-
-
-
-
-
-
 		double delta = 0.0;
 		double mod = std::fmod(height, sizeStep);
 		if (mod < sizeStep / 2) {
@@ -109,23 +107,19 @@ void Voxelizer::compute(CityGMLTriangulate* cityGMLTriangulate)
 
 
 	}
-	
 
-	for (int i = 0; i < mapsize.y; i++) {
-		for (int j = 0; j < mapsize.x; j++) {
-			std::cout << std::fixed << std::setprecision(3)<< tiles.at(j + i * mapsize.x).height << "|";
+	if (debug) {
+		for (int i = 0; i < mapsize.y; i++) {
+			for (int j = 0; j < mapsize.x; j++) {
+				std::cout << std::fixed << std::setprecision(3) << tiles.at(j + i * mapsize.x).height << "|";
+			}
+			std::cout << std::endl;
 		}
-		std::cout << std::endl;
-	} 
-
-
-	rectangulize();
-
-	
+	}
 
 }
 
-void Voxelizer::rectangulize()
+void Voxelizer::remesh()
 {
 	
 	std::cout << ":::::::::: Calculating top faces and optimizing ::::::::::" << std::endl;
@@ -133,7 +127,7 @@ void Voxelizer::rectangulize()
 	for (int i = 0; i < mapsize.x; i++) {
 		for (int j = 0; j < mapsize.y; j++) {
 			int currentIndex = j + i * mapsize.y;
-			int h = tiles.at(currentIndex).height;
+			double h = tiles.at(currentIndex).height;
 
 
 			TVec3d a(i, j, h);
@@ -141,22 +135,24 @@ void Voxelizer::rectangulize()
 			TVec3d c(i + 1, j + 1, h);
 			TVec3d d(i, j + 1, h);
 
+			//Test if the last face in x was at the same height
 			bool usePredj = false;
 			if (j > 0) {
-				if (a == vertexlist.at(tiles.at(currentIndex-1).top.d) && b == vertexlist.at(tiles.at(currentIndex - 1).top.c)) {
+				if (a == vertexlist.at(tiles.at(currentIndex-1).top.d)) {
 					usePredj = true;
 				}
 			}
+
+			//Test if the last face in y was at the same height
 			bool usePredi = false;
 			if (i > 0) {
 				if (d == vertexlist.at(tiles.at(currentIndex - mapsize.y).top.c)) {
 					usePredi = true;
 				}
 			}
-			
 
 			if (usePredj){
-				//cas ou j-1 == j
+				//case where j-1 == j
 				vertexlist.push_back(c);
 				if (usePredi) {
 					int indice = vertexlist.size();
@@ -177,7 +173,7 @@ void Voxelizer::rectangulize()
 				}
 
 			} else {
-				//cas ou i-1 == i
+				//case where i-1 == i
 				if (usePredi) {
 					vertexlist.push_back(a);
 					vertexlist.push_back(b);
@@ -213,26 +209,25 @@ void Voxelizer::rectangulize()
 		for (int i = 0; i < mapsize.x; i++) {
 			for (int j = 0; j < mapsize.y; j++) {
 
-				int index = i * j + mapsize.y;
-				// 1. cas horizontal
-				// 1.1 il a un voisin a droite
+				int index = j + i * mapsize.y;
+				// 1. line case
+				// 1.1 neighboor on right
 				if (j < mapsize.y - 1) {
 					double deltaheight = tiles.at(index).height - tiles.at(index + 1).height;
 
 					if (deltaheight > 0) {
-						// 1.1.1 il a un voisin plus petit
-						//instancie 
-
-						//Les points du bas
+						// 1.1.1 neighboor smaller
+						//Bottom points
 						int newa = tiles.at(index + 1).top.a;
 						int newb = tiles.at(index + 1).top.b;
-						for (int k = 0; k * sizeStep < deltaheight; k++) {
-							//les points du milieu
+						//Middle points
+						for (double k = 1; k * sizeStep <= deltaheight-1; k++) {
+							
 							TVec3d vecA = vertexlist.at(newa);
-							//new a
+							//new c
 							vertexlist.push_back(TVec3d(vecA.x, vecA.y , vecA.z +  sizeStep));
 							TVec3d vecB = vertexlist.at(newb);
-							//new c
+							//new d
 							vertexlist.push_back(TVec3d(vecB.x, vecB.y , vecB.z +  sizeStep));
 
 							int indice = vertexlist.size();
@@ -240,96 +235,96 @@ void Voxelizer::rectangulize()
 							newa = indice - 2;
 							newb = indice - 1;
 						}
-						//Les points du haut
+						// Final point
 						int newd = tiles.at(index).top.d;
 						int newc = tiles.at(index).top.c;
 						tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, newc, newd, 0, 4, 5, 6, 7));
 
+					} else if (deltaheight < 0) {
+						// 1.1.2 neighboor higher
+						deltaheight = abs(deltaheight);
+						//Bottom points
+						int newd = tiles.at(index).top.d;
+						int newc = tiles.at(index).top.c;
+						//Middle points
+						for (double k = 1; k * sizeStep<= deltaheight-1; k++) {
+							TVec3d vecD = vertexlist.at(newd);
+							//new a
+							vertexlist.push_back(TVec3d(vecD.x, vecD.y, vecD.z + sizeStep));
+							TVec3d vecC = vertexlist.at(newc);
+							//new c
+							vertexlist.push_back(TVec3d(vecC.x, vecC.y, vecC.z + sizeStep));
+
+							int indice = vertexlist.size();
+							tiles.at(index).pushRectangleFaceRight(Rectangleface(indice - 2, indice - 1, newc, newd, 1, 4, 5, 6, 7));
+							newd = indice - 2;
+							newc = indice - 1;
+						}
+						//Final points
+						int newa = tiles.at(index + 1).top.a;
+						int newb = tiles.at(index + 1).top.b;
+						tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, newc, newd, 1, 4, 5, 6, 7));
 					}
-					//else if (deltaheight < 0) {
-					//	// 1.1.2 il a un voisin plus grand
-					//	deltaheight = abs(deltaheight);
-					//	//Les points du bas
-					//	int newd = tiles.at(index).top.d;
-					//	int newc = tiles.at(index).top.c;
-					//	for (int k = 1; k * sizeStep < deltaheight; k++) {
-					//		//les points du milieu
-					//		TVec3d vecD = vertexlist.at(newd);
-					//		//new a
-					//		vertexlist.push_back(TVec3d(vecD.x, vecD.y, vecD.z + sizeStep));
-					//		TVec3d vecC = vertexlist.at(newc);
-					//		//new c
-					//		vertexlist.push_back(TVec3d(vecC.x, vecC.y, vecC.z + sizeStep));
-
-					//		int indice = vertexlist.size();
-					//		tiles.at(index).pushRectangleFaceRight(Rectangleface(indice - 2, indice - 1, newc, newd, 1, 4, 5, 6, 7));
-					//		newd = indice - 2;
-					//		newc = indice - 1;
-					//	}
-					//	//Les points du haut
-					//	int newa = tiles.at(index + 1).top.a;
-					//	int newb = tiles.at(index + 1).top.b;
-					//	tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, newc, newd, 1, 4, 5, 6, 7));
-					//}
 				}
-				//// 2. vertical
-				//// 2.1 il a un voisin en dessous
-				//if (i < mapsize.x - 1) {
-				//	double deltaheight = tiles.at(index).height - tiles.at(index + mapsize.y).height;
-				//	if (deltaheight > 0) {
-				//		// 1.1.1 il a un voisin plus petit
+				//// 2. column case
+				//// 2.1 neighboor on last column
+				if (i < mapsize.x - 1) {
+					double deltaheight = tiles.at(index).height - tiles.at(index + mapsize.y).height;
 
-				//		//Les points du bas
+					if (deltaheight > 0) {
+						// 1.1.1 neighboor smaller
 
-				//		int newc = tiles.at(index + mapsize.y).top.a;
-				//		int newd = tiles.at(index + mapsize.y).top.b;
-				//		for (int k = 1; k < deltaheight - 1; k++) {
-				//			//les points du milieu 
-				//			TVec3d vecC = vertexlist.at(newc);
-				//			//new a
-				//			vertexlist.push_back(TVec3d(vecC.x, vecC.y + k * sizeStep, vecC.z));
-				//			TVec3d vecD = vertexlist.at(newd);
-				//			//new b
-				//			vertexlist.push_back(TVec3d(vecD.x, vecD.y + k * sizeStep, vecD.z));
+						//Bottom points
+						int newa = tiles.at(index + mapsize.y).top.a;
+						int newd = tiles.at(index + mapsize.y).top.d;
+						//Middle points
+						for (double k = 1; k * sizeStep<= deltaheight-1; k++) {
+							TVec3d vecA = vertexlist.at(newa);
+							//new b
+							vertexlist.push_back(TVec3d(vecA.x, vecA.y , vecA.z + sizeStep));
+							TVec3d vecD = vertexlist.at(newd);
+							//new c
+							vertexlist.push_back(TVec3d(vecD.x, vecD.y, vecD.z + sizeStep));
 
-				//			int indice = vertexlist.size();
+							int indice = vertexlist.size();
 
-				//			tiles.at(index).pushRectangleFaceDown(Rectangleface(indice - 2, indice, newc, newd, 4, 4, 5, 6, 7));
-				//			newc = indice - 1;
-				//			newd = indice - 2;
-				//		}
-				//		//Les points du haut
-				//		int newa = tiles.at(index).top.c;
-				//		int newb = tiles.at(index).top.d;
-				//		tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 4, 4, 5, 6, 7));
+							tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, indice - 2, indice - 1, newd, 4, 4, 5, 6, 7));
+							newa = indice - 2;
+							newd = indice - 1;
+						}
+						//Final points
+						int newb = tiles.at(index).top.b;
+						int newc = tiles.at(index).top.c;
+						tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 4, 4, 5, 6, 7));
 
-				//	}
-				//	else if (deltaheight < 0) {
-				//		// 1.1.2 il a un voisin plus grand
+					} else if (deltaheight < 0) {
+						// 1.1.2 neighboor higher
+						deltaheight = abs(deltaheight);
 
-				//		//Les points du bas
-				//		int newc = tiles.at(index).top.c;
-				//		int newd = tiles.at(index).top.d;
-				//		for (int k = 1; k < deltaheight - 1; k++) {
-				//			//les points du milieu
-				//			TVec3d vecC = vertexlist.at(newc);
-				//			//new a
-				//			vertexlist.push_back(TVec3d(vecC.x, vecC.y + k * sizeStep, vecC.z));
-				//			TVec3d vecD = vertexlist.at(newd);
-				//			//new b
-				//			vertexlist.push_back(TVec3d(vecD.x, vecD.y + k * sizeStep, vecD.z));
+						//Bottom points
+						int newb = tiles.at(index).top.b;
+						int newc = tiles.at(index).top.c;
+						//Middle points
+						for (double k = 1; k * sizeStep <= deltaheight-1; k++) {
+							//les points du milieu
+							TVec3d vecC = vertexlist.at(newb);
+							//new a
+							vertexlist.push_back(TVec3d(vecC.x, vecC.y, vecC.z + sizeStep));
+							TVec3d vecD = vertexlist.at(newc);
+							//new b
+							vertexlist.push_back(TVec3d(vecD.x, vecD.y, vecD.z + sizeStep));
 
-				//			int indice = vertexlist.size();
-				//			tiles.at(index).pushRectangleFaceDown(Rectangleface(indice - 2, indice - 1, newc, newd, 5,4,5,6,7));
-				//			newc = indice - 1;
-				//			newd = indice - 2;
-				//		}
-				//		//Les points du haut
-				//		int newa = tiles.at(index + 1).top.a;
-				//		int newb = tiles.at(index + 1).top.b;
-				//		tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 5, 4, 5, 6, 7));
-				//	}
-				//}
+							int indice = vertexlist.size();
+							tiles.at(index).pushRectangleFaceDown(Rectangleface(indice - 2, newb, newc, indice - 1, 5,4,5,6,7));
+							newb = indice - 2;
+							newc = indice - 1;
+						}
+						//Final points
+						int newa = tiles.at(index + mapsize.y).top.a;
+						int newd = tiles.at(index + mapsize.y).top.d;
+						tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 5, 4, 5, 6, 7));
+					}
+				}
 			}
 		}
 	}
@@ -339,7 +334,6 @@ void Voxelizer::rectangulize()
 				int index = mapsize.x * j + i;
 				if (i < mapsize.x - 1) {
 					int deltaheight = tiles.at(index).height - tiles.at(index + 1).height;
-					//si >0 alors index plus haut
 
 					if (deltaheight > 0) {
 
@@ -379,10 +373,10 @@ void Voxelizer::rectangulize()
 		}
 	}
 
-	printObj("output/voxelmap.obj");
+
 }
 
-void Voxelizer::printObj(std::string namefile)
+void Voxelizer::printObj(const std::string namefile)
 { 
 	std::cout << ":::::::::: Writing in " << namefile << "::::::::::" << std::endl;
 	std::ofstream myfile;
@@ -392,17 +386,18 @@ void Voxelizer::printObj(std::string namefile)
 	myfile << "#www.blender.org" << std::endl;
 	myfile << "mtllib test.mtl" << std::endl;
 	myfile << "o Ville" << std::endl;
-	//liste des faces
+
+	//list of vertices
 	for (int i = 0; i < vertexlist.size(); i++) {
 		myfile << "v " << vertexlist.at(i).x << " " << vertexlist.at(i).z << " " << vertexlist.at(i).y << std::endl;
 	}
 
-	//liste des coordonees de texture
+	//list of textures coordinates
 	for (int i = 0; i < uvlist.size(); i++) {
 		myfile << "vt " << uvlist.at(i).a << " " << uvlist.at(i).b  << std::endl;
 	}
 
-	//liste des normales
+	//list of normales
 	for (int i = 0; i < normalelist.size(); i++) {
 		myfile << "vn " << normalelist.at(i).a << " " << normalelist.at(i).b << " "<< normalelist.at(i).c << std::endl;
 	}
@@ -411,7 +406,7 @@ void Voxelizer::printObj(std::string namefile)
 	myfile << "s off" << std::endl;
 
 
-	//liste des faces
+	//list of faces
 	for (int i = 0; i < tiles.size(); i++) {
 		if (material) {
 			if (tiles.at(i).type == Ground)
@@ -451,9 +446,5 @@ void Voxelizer::printObj(std::string namefile)
 	std::cout << ":::::::::: Writing finished ::::::::::" << std::endl;
 }
 
-void Voxelizer::printvertices()
-{
-
-}
 
 

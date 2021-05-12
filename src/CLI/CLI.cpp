@@ -15,8 +15,8 @@ CLI::CLI(int argc, char* argv[])
 
 	_cliParams.push_back(CLIParam("--help", "Prints usage."));
 	_cliParams.push_back(CLIParam("--debug", "Turn on debug mode."));
-	_cliParams.push_back(CLIParam("--triangulate", "Triangulate CityGML object"));
-	_cliParams.push_back(CLIParam("--voxelizer", "Description", std::vector<bool>({ 1, 1, 1, 1, 1 })));
+	_cliParams.push_back(CLIParam("--triangulate", "Triangulate CityGML object")); 
+	_cliParams.push_back(CLIParam("--voxelizer", "Voxelize a GML file", std::vector<bool>({ 1, 1, 1, 1, 1, 0})));
 
 }
 
@@ -109,20 +109,30 @@ void CLI::processCmdLine()
 				usage();
 			}
 			else if (name == "--debug") {
-				std::cout << "[NOT IMPLEMENTED YET] --debug" << std::endl;
+				_debugModule = true;
+
+				std::cout << "Debug mode enabled" << std::endl;
 			}
 			else if (name == "--voxelizer") {
-				if (_cliParams[i]._args.size() >= 5) {
-					_citygmltool->voxelize(
-						std::stoi(_cliParams[i]._args[0]),
-						std::stoi(_cliParams[i]._args[1]),
-						std::stoi(_cliParams[i]._args[2]),
-						std::stoi(_cliParams[i]._args[3]),
-						std::stoi(_cliParams[i]._args[4]));
+				std::string output;
+				if (_cliParams[i]._args.size() == 6) {
+					std::string toMatch = ".obj";
+					if (_argv[1].size() >= toMatch.size() && _argv[1].compare(_argv[1].size() - toMatch.size(), toMatch.size(), toMatch) == 0)
+					{
+						this->_gmlFilename = this->_argv[6];
+						std::cout << "Make sure your outPut nameFile end with '.obj'" << std::endl;
+					}
 				}
-				else {
-					std::cout << "Le nombre de parametre n'est pas correct" << std::endl;
-				}
+				if(_debugModule)
+					std::cout << "DEBUG MODE" << endl;
+				_citygmltool->voxelize(
+					std::stoi(_cliParams[i]._args[0]),
+					std::stoi(_cliParams[i]._args[1]),
+					std::stoi(_cliParams[i]._args[2]),
+					std::stoi(_cliParams[i]._args[3]),
+					std::stoi(_cliParams[i]._args[4]),
+					_cliParams[i]._args[5],
+					_debugModule);
 			}
 			else if (name == "--triangulate") {
 				_citygmltool->triangulate(_gmlFilename);
@@ -140,6 +150,8 @@ bool CLI::assertCityGMLFile()
 
 		return true;
 	}
+
+
 
 	return false;
 }

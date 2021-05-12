@@ -14,6 +14,7 @@ struct CLIParam
 	std::vector<bool> _argsRequirements;	// ex: [0]: false (OPTIONAL)
 	bool _found = false;					// true if _name found, false otherwise
 
+
 	CLIParam(std::string name, std::string desc = "", std::vector<bool> argsRequirements = std::vector<bool>())
 		: _name(name), _desc(desc), _argsRequirements(argsRequirements) {}
 
@@ -55,7 +56,7 @@ public:
     void usage();
 private:
 	std::stringstream outstream;
-
+	bool _debugModule = false;
     int _argc;
     std::vector<std::string> _argv;
 	std::string _cmdLine;

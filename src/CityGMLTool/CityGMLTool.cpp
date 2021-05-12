@@ -94,12 +94,12 @@ void CityGMLTool::parse(std::string & filename)
 	//}
 }
 
-void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gridmode, bool material) {
-	std::cout << "hey" << std::endl;
+void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gridmode, bool material, std::string outPutFileName, bool debug) {
+
 	Voxelizer* voxelizer = static_cast<Voxelizer*>(this->findModuleByName("voxelizer"));
 	CityGMLTriangulate* triangulate = static_cast<CityGMLTriangulate*>(this->findModuleByName("triangulate"));
 
-	voxelizer->init(mapSizeX, mapSizeY,horizontalStep, gridmode, material);
+	voxelizer->init(mapSizeX, mapSizeY,horizontalStep, gridmode, material, debug);
 	triangulate->initTriangleList(cityModel);
 	
 	triangulate->printBaseTriangleList(triangulate->getTriangleList());
@@ -111,9 +111,10 @@ void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gr
 		std::cout << triangulate->getTriangleList()->triangles.at(0)->c << std::endl;
 	}*/
 
-	std::cout << "liste triangles termines" << std::endl;
-	voxelizer->compute(triangulate);
-	//appel du module triangle
+
+	voxelizer->computeHeightMap(triangulate);
+	voxelizer->remesh();
+	voxelizer->printObj(outPutFileName);
 }
 
 
