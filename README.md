@@ -123,9 +123,10 @@ Exemple :
 
 | Options | optionnel | type | par défaut | Commande |
 | --- | --- | --- | --- | --- |
-| Nombre de lancés de rayons de X | oui | int | 100 | mapSizeX |
-| Nombre de lancés de rayons de Y | oui | int | 100 | mapSizeY |
-| Nombre de découpage en hauteur | oui | int | 1 | horizontalStep |
+| Nombre de lancés de rayons de X | non | int | 100 | mapSizeX |
+| Nombre de lancés de rayons de Y | non | int | 100 | mapSizeY |
+| Nombre de découpage en hauteur | non | int | 1 | horizontalStep |
 | Mode de remaillage | oui | int | 1 | gridmode|
 | Matériaux différents pour le sol et les bâtiments | oui | bool | 1 | material |
+| Nom de fichier en sortie (.obj) | oui | std::string | output.obj | outPutFileName
 
