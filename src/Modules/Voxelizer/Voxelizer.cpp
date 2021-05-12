@@ -231,14 +231,14 @@ void Voxelizer::remesh()
 							vertexlist.push_back(TVec3d(vecB.x, vecB.y , vecB.z +  sizeStep));
 
 							int indice = vertexlist.size();
-							tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, indice - 1, indice - 2, 1, 4, 5, 6, 7));
+							tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, indice - 1, indice - 2, 4, 4, 5, 6, 7));
 							newa = indice - 2;
 							newb = indice - 1;
 						}
 						// Final point
 						int newd = tiles.at(index).top.d;
 						int newc = tiles.at(index).top.c;
-						tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, newc, newd, 1, 4, 5, 6, 7));
+						tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, newc, newd, 4, 4, 5, 6, 7));
 
 					} else if (deltaheight < 0) {
 						// 1.1.2 neighboor higher
@@ -256,14 +256,14 @@ void Voxelizer::remesh()
 							vertexlist.push_back(TVec3d(vecC.x, vecC.y, vecC.z + sizeStep));
 
 							int indice = vertexlist.size();
-							tiles.at(index).pushRectangleFaceRight(Rectangleface(indice - 2, indice - 1, newc, newd, 0, 4, 5, 6, 7));
+							tiles.at(index).pushRectangleFaceRight(Rectangleface(indice - 2, indice - 1, newc, newd, 5, 4, 5, 6, 7));
 							newd = indice - 2;
 							newc = indice - 1;
 						}
 						//Final points
 						int newa = tiles.at(index + 1).top.a;
 						int newb = tiles.at(index + 1).top.b;
-						tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, newc, newd, 0, 4, 5, 6, 7));
+						tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, newc, newd, 5, 4, 5, 6, 7));
 					}
 				}
 				//// 2. column case
@@ -288,14 +288,14 @@ void Voxelizer::remesh()
 
 							int indice = vertexlist.size();
 
-							tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, indice - 2, indice - 1, newd, 5, 4, 5, 6, 7));
+							tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, indice - 2, indice - 1, newd, 0, 4, 5, 6, 7));
 							newa = indice - 2;
 							newd = indice - 1;
 						}
 						//Final points
 						int newb = tiles.at(index).top.b;
 						int newc = tiles.at(index).top.c;
-						tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 5, 4, 5, 6, 7));
+						tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 0, 4, 5, 6, 7));
 
 					} else if (deltaheight < 0) {
 						// 1.1.2 neighboor higher
@@ -315,14 +315,14 @@ void Voxelizer::remesh()
 							vertexlist.push_back(TVec3d(vecD.x, vecD.y, vecD.z + sizeStep));
 
 							int indice = vertexlist.size();
-							tiles.at(index).pushRectangleFaceDown(Rectangleface(indice - 2, newb, newc, indice - 1, 4,4,5,6,7));
+							tiles.at(index).pushRectangleFaceDown(Rectangleface(indice - 2, newb, newc, indice - 1, 1,4,5,6,7));
 							newb = indice - 2;
 							newc = indice - 1;
 						}
 						//Final points
 						int newa = tiles.at(index + mapsize.y).top.a;
 						int newd = tiles.at(index + mapsize.y).top.d;
-						tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 4, 4, 5, 6, 7));
+						tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 1, 4, 5, 6, 7));
 					}
 				}
 			}
