@@ -79,7 +79,7 @@ cd DA-POM-Legonizer/x64/Debug
 ./<executable> [MYFILE.gml] --triangulate
 ```
 ### Objectif
-Le but de ce module est de créer une liste de triangle à partir d'un fichier .gml ([Geography Markup Language](https://fr.wikipedia.org/wiki/Geography_Markup_Language)) qui doit être parsé soit par le module parser soit par la fonction `TileTriangleList`. Cette liste nous sera utile par la suite pour le lancer de rayon.
+Le but de ce module est de créer une liste de triangle à partir d'un fichier .gml ([Geography Markup Language](https://fr.wikipedia.org/wiki/Geography_Markup_Language)). Ce fichier est parsé dans la fonction `initTriangleList`. Cette liste nous sera utile par la suite pour le lancer de rayon.
 ### Fonctionnement 
 Une fois le fichier parsé nous obtenons un objet `CityModel`. Cet objet nous allons le parcourir jusqu’au polygone comme vous pouvez le voir ci-dessous. À partir du `
 Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de sommets pour construire nos triangles afin de les ajouter notre liste de triangle. </br>
@@ -90,10 +90,10 @@ Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de 
 ### Fonctions
 | Nom | Paramètre | Commentaire |
 | --- | --- | --- |
-| initTriangleList | CityModel | Créer notre liste de triangle. |
-| TileTriangleList | string GMLFile | Créer notre liste de triangle. |
+| initTriangleList | string GMLFile | Créer notre liste de triangle. |
 | printBaseTriangleList | ListTriangle | Créer un .obj afin de visualiser notre liste de triangle. |
 | get[X/Y/Z][Max/Min] |  | Retourne la valeur maximale et minimale sur l’axe X, Y, Z d’une liste de triangle. |
+| initTriangleListCityModel | CityModel | Créer notre liste de triangle. Utilisé lors de nos tests |
 ### Screnshots
 <p align="center">Mairie de Vaulx-en-Velin</p>
 <p align="center">
