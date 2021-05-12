@@ -31,7 +31,6 @@ Module* CityGMLTool::findModuleByName(const std::string name)
 }
 
 void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gridmode, bool material, std::string& filename) {
-	std::cout << "hey" << std::endl;
 	Voxelizer* voxelizer = static_cast<Voxelizer*>(this->findModuleByName("voxelizer"));
 	CityGMLTriangulate* triangulate = static_cast<CityGMLTriangulate*>(this->findModuleByName("triangulate"));
 

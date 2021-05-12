@@ -7,10 +7,12 @@ CityGMLTriangulate::CityGMLTriangulate(std::string name) : Module(name) {}
 
 void CityGMLTriangulate::initTriangleListCityModel(const citygml::CityModel* cityModel) {
 	this->listTriangle = BuildListTriangle(cityModel);
+
 }
 
 void CityGMLTriangulate::initTriangleList(std::string& gmlfile) {
     this->listTriangle = BuildListTriangleTile(gmlfile);
+    std::cout << ":::::::::: Triangle List Build ::::::::::" << std::endl;
 }
 
 int CityGMLTriangulate::getTriangleListSize()
