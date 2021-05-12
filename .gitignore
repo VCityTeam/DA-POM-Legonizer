@@ -20,6 +20,7 @@ target/
 .vs
 .idea/
 
+
 /.vs
 /.vscode
 /x64/Debug
@@ -31,3 +32,4 @@ target/
 data.gml
 /x64/
 *.obj
+

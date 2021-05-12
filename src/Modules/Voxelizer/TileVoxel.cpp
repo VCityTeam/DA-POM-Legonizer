@@ -6,7 +6,7 @@ TileVoxel::TileVoxel(){
 
 TileVoxel::TileVoxel(int height) {
     this->height = height;
-    this->type = Default;
+    this->type = Ground;
 }
 
 TileVoxel::TileVoxel(int height, TileType type){
