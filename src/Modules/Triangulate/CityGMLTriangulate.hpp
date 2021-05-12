@@ -13,10 +13,6 @@ class CityGMLTriangulate : public Module {
         TriangleList* listTriangle;
 
     public:
-        /**
-       *	@brief Retourne la taille de notre liste de Triangle
-       *	@param Une liste de triangle
-       */
 
         /**
         *	@brief Build list of triangle from a CityGML building tile
@@ -28,13 +24,13 @@ class CityGMLTriangulate : public Module {
         *	@brief Initialise listTriangle
         *	@param CityModel obtenu en parsant le fichier .gml
         */
-        void initTriangleList(const citygml::CityModel* cityModel);
+        void initTriangleListCityModel(const citygml::CityModel* cityModel);
         
         /**
         *	@brief Initialise listTrianlge avec un fichier GML
         *	@param gmlFile est le fichier
         */
-        void TileTriangleList(std::string& gmlfile);
+        void initTriangleList(std::string& gmlfile);
 
         /**
         *	@brief Crée un .obj a partir de la liste de triangle

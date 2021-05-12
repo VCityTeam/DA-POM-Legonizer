@@ -16,7 +16,7 @@ CLI::CLI(int argc, char* argv[])
 	_cliParams.push_back(CLIParam("--help", "Prints usage."));
 	_cliParams.push_back(CLIParam("--debug", "Turn on debug mode."));
 	_cliParams.push_back(CLIParam("--triangulate", "Triangulate CityGML object"));
-	_cliParams.push_back(CLIParam("--voxelizer", "Description", std::vector<bool>({ 1, 1, 1, 1, 1 })));
+	_cliParams.push_back(CLIParam("--voxelizer", "Description", std::vector<bool>({ 1, 1, 1, 1, 1})));
 
 }
 
@@ -96,9 +96,6 @@ void CLI::parseCmdLine()
 
 void CLI::processCmdLine()
 {
-	// Parse the CityGML file
-	_citygmltool->parse(_gmlFilename);
-
 	// Process found arguments
 	for (int i = 0; i < _cliParams.size(); i++)
 	{
@@ -118,7 +115,8 @@ void CLI::processCmdLine()
 						std::stoi(_cliParams[i]._args[1]),
 						std::stoi(_cliParams[i]._args[2]),
 						std::stoi(_cliParams[i]._args[3]),
-						std::stoi(_cliParams[i]._args[4]));
+						std::stoi(_cliParams[i]._args[4]),
+						_gmlFilename);
 				}
 				else {
 					std::cout << "Le nombre de parametre n'est pas correct" << std::endl;

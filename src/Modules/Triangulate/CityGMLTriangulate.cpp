@@ -5,11 +5,11 @@
 CityGMLTriangulate::CityGMLTriangulate(std::string name) : Module(name) {}
 
 
-void CityGMLTriangulate::initTriangleList(const citygml::CityModel* cityModel) {
+void CityGMLTriangulate::initTriangleListCityModel(const citygml::CityModel* cityModel) {
 	this->listTriangle = BuildListTriangle(cityModel);
 }
 
-void CityGMLTriangulate::TileTriangleList(std::string& gmlfile) {	
+void CityGMLTriangulate::initTriangleList(std::string& gmlfile) {
     this->listTriangle = BuildListTriangleTile(gmlfile);
 }
 
