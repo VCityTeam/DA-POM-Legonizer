@@ -27,10 +27,9 @@ void Voxelizer::init(int mapSizeX, int mapSizeY, int horizontalStep, int gridmod
 			tiles.push_back(TileVoxel(0.0));
 		}
 	}
-	if(scale)
-		this->scale = scale;
-	if(gridmode)
-		this->gridmode = gridmode;
+
+
+	this->gridmode = gridmode;
 	normalelist.push_back(Normales(1, 0, 0));
 	normalelist.push_back(Normales(-1, 0, 0));
 	normalelist.push_back(Normales(0, 1, 0));
@@ -100,7 +99,7 @@ void Voxelizer::compute(CityGMLTriangulate* cityGMLTriangulate)
 		if (mod < sizeStep / 2) {
 			delta = height - mod;
 		} else if (mod > sizeStep / 2) {
-			delta = height + (1 - mod);
+			delta = height- mod + sizeStep ;
 		} else {
 			delta = height;
 		}
@@ -227,14 +226,14 @@ void Voxelizer::rectangulize()
 						//Les points du bas
 						int newa = tiles.at(index + 1).top.a;
 						int newb = tiles.at(index + 1).top.b;
-						for (int k = 1; k < deltaheight - 1; k++) {
+						for (int k = 0; k * sizeStep < deltaheight; k++) {
 							//les points du milieu
 							TVec3d vecA = vertexlist.at(newa);
 							//new a
-							vertexlist.push_back(TVec3d(vecA.x, vecA.y + k * sizeStep, vecA.z));
+							vertexlist.push_back(TVec3d(vecA.x, vecA.y , vecA.z +  sizeStep));
 							TVec3d vecB = vertexlist.at(newb);
 							//new c
-							vertexlist.push_back(TVec3d(vecB.x, vecB.y + k * sizeStep, vecB.z));
+							vertexlist.push_back(TVec3d(vecB.x, vecB.y , vecB.z +  sizeStep));
 
 							int indice = vertexlist.size();
 							tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, indice - 1, indice - 2, 0, 4, 5, 6, 7));
@@ -247,90 +246,90 @@ void Voxelizer::rectangulize()
 						tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, newc, newd, 0, 4, 5, 6, 7));
 
 					}
-					else if (deltaheight < 0) {
-						// 1.1.2 il a un voisin plus grand
+					//else if (deltaheight < 0) {
+					//	// 1.1.2 il a un voisin plus grand
+					//	deltaheight = abs(deltaheight);
+					//	//Les points du bas
+					//	int newd = tiles.at(index).top.d;
+					//	int newc = tiles.at(index).top.c;
+					//	for (int k = 1; k * sizeStep < deltaheight; k++) {
+					//		//les points du milieu
+					//		TVec3d vecD = vertexlist.at(newd);
+					//		//new a
+					//		vertexlist.push_back(TVec3d(vecD.x, vecD.y, vecD.z + sizeStep));
+					//		TVec3d vecC = vertexlist.at(newc);
+					//		//new c
+					//		vertexlist.push_back(TVec3d(vecC.x, vecC.y, vecC.z + sizeStep));
 
-						//Les points du bas
-						int newd = tiles.at(index).top.d;
-						int newc = tiles.at(index).top.c;
-						for (int k = 1; k < deltaheight - 1; k++) {
-							//les points du milieu
-							TVec3d vecD = vertexlist.at(newd);
-							//new a
-							vertexlist.push_back(TVec3d(vecD.x, vecD.y + k * sizeStep, vecD.z));
-							TVec3d vecC = vertexlist.at(newc);
-							//new c
-							vertexlist.push_back(TVec3d(vecC.x, vecC.y + k * sizeStep, vecC.z));
-
-							int indice = vertexlist.size();
-							tiles.at(index).pushRectangleFaceRight(Rectangleface(indice - 2, indice - 1, newc, newd, 1, 4, 5, 6, 7));
-							newd = indice - 2;
-							newc = indice - 1;
-						}
-						//Les points du haut
-						int newa = tiles.at(index + 1).top.a;
-						int newb = tiles.at(index + 1).top.b;
-						tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, newc, newd, 1, 4, 5, 6, 7));
-					}
+					//		int indice = vertexlist.size();
+					//		tiles.at(index).pushRectangleFaceRight(Rectangleface(indice - 2, indice - 1, newc, newd, 1, 4, 5, 6, 7));
+					//		newd = indice - 2;
+					//		newc = indice - 1;
+					//	}
+					//	//Les points du haut
+					//	int newa = tiles.at(index + 1).top.a;
+					//	int newb = tiles.at(index + 1).top.b;
+					//	tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, newc, newd, 1, 4, 5, 6, 7));
+					//}
 				}
-				// 2. vertical
-				// 2.1 il a un voisin en dessous
-				if (i < mapsize.x - 1) {
-					double deltaheight = tiles.at(index).height - tiles.at(index + mapsize.y).height;
-					if (deltaheight > 0) {
-						// 1.1.1 il a un voisin plus petit
+				//// 2. vertical
+				//// 2.1 il a un voisin en dessous
+				//if (i < mapsize.x - 1) {
+				//	double deltaheight = tiles.at(index).height - tiles.at(index + mapsize.y).height;
+				//	if (deltaheight > 0) {
+				//		// 1.1.1 il a un voisin plus petit
 
-						//Les points du bas
+				//		//Les points du bas
 
-						int newc = tiles.at(index + mapsize.y).top.a;
-						int newd = tiles.at(index + mapsize.y).top.b;
-						for (int k = 1; k < deltaheight - 1; k++) {
-							//les points du milieu 
-							TVec3d vecC = vertexlist.at(newc);
-							//new a
-							vertexlist.push_back(TVec3d(vecC.x, vecC.y + k * sizeStep, vecC.z));
-							TVec3d vecD = vertexlist.at(newd);
-							//new b
-							vertexlist.push_back(TVec3d(vecD.x, vecD.y + k * sizeStep, vecD.z));
+				//		int newc = tiles.at(index + mapsize.y).top.a;
+				//		int newd = tiles.at(index + mapsize.y).top.b;
+				//		for (int k = 1; k < deltaheight - 1; k++) {
+				//			//les points du milieu 
+				//			TVec3d vecC = vertexlist.at(newc);
+				//			//new a
+				//			vertexlist.push_back(TVec3d(vecC.x, vecC.y + k * sizeStep, vecC.z));
+				//			TVec3d vecD = vertexlist.at(newd);
+				//			//new b
+				//			vertexlist.push_back(TVec3d(vecD.x, vecD.y + k * sizeStep, vecD.z));
 
-							int indice = vertexlist.size();
+				//			int indice = vertexlist.size();
 
-							tiles.at(index).pushRectangleFaceDown(Rectangleface(indice - 2, indice, newc, newd, 4, 4, 5, 6, 7));
-							newc = indice - 1;
-							newd = indice - 2;
-						}
-						//Les points du haut
-						int newa = tiles.at(index).top.c;
-						int newb = tiles.at(index).top.d;
-						tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 4, 4, 5, 6, 7));
+				//			tiles.at(index).pushRectangleFaceDown(Rectangleface(indice - 2, indice, newc, newd, 4, 4, 5, 6, 7));
+				//			newc = indice - 1;
+				//			newd = indice - 2;
+				//		}
+				//		//Les points du haut
+				//		int newa = tiles.at(index).top.c;
+				//		int newb = tiles.at(index).top.d;
+				//		tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 4, 4, 5, 6, 7));
 
-					}
-					else if (deltaheight < 0) {
-						// 1.1.2 il a un voisin plus grand
+				//	}
+				//	else if (deltaheight < 0) {
+				//		// 1.1.2 il a un voisin plus grand
 
-						//Les points du bas
-						int newc = tiles.at(index).top.c;
-						int newd = tiles.at(index).top.d;
-						for (int k = 1; k < deltaheight - 1; k++) {
-							//les points du milieu
-							TVec3d vecC = vertexlist.at(newc);
-							//new a
-							vertexlist.push_back(TVec3d(vecC.x, vecC.y + k * sizeStep, vecC.z));
-							TVec3d vecD = vertexlist.at(newd);
-							//new b
-							vertexlist.push_back(TVec3d(vecD.x, vecD.y + k * sizeStep, vecD.z));
+				//		//Les points du bas
+				//		int newc = tiles.at(index).top.c;
+				//		int newd = tiles.at(index).top.d;
+				//		for (int k = 1; k < deltaheight - 1; k++) {
+				//			//les points du milieu
+				//			TVec3d vecC = vertexlist.at(newc);
+				//			//new a
+				//			vertexlist.push_back(TVec3d(vecC.x, vecC.y + k * sizeStep, vecC.z));
+				//			TVec3d vecD = vertexlist.at(newd);
+				//			//new b
+				//			vertexlist.push_back(TVec3d(vecD.x, vecD.y + k * sizeStep, vecD.z));
 
-							int indice = vertexlist.size();
-							tiles.at(index).pushRectangleFaceDown(Rectangleface(indice - 2, indice - 1, newc, newd, 5,4,5,6,7));
-							newc = indice - 1;
-							newd = indice - 2;
-						}
-						//Les points du haut
-						int newa = tiles.at(index + 1).top.a;
-						int newb = tiles.at(index + 1).top.b;
-						tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 5, 4, 5, 6, 7));
-					}
-				}
+				//			int indice = vertexlist.size();
+				//			tiles.at(index).pushRectangleFaceDown(Rectangleface(indice - 2, indice - 1, newc, newd, 5,4,5,6,7));
+				//			newc = indice - 1;
+				//			newd = indice - 2;
+				//		}
+				//		//Les points du haut
+				//		int newa = tiles.at(index + 1).top.a;
+				//		int newb = tiles.at(index + 1).top.b;
+				//		tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 5, 4, 5, 6, 7));
+				//	}
+				//}
 			}
 		}
 	}

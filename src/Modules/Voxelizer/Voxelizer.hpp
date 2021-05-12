@@ -77,11 +77,6 @@ struct Voxelizer : public Module
         int minHeight = 0;
 
         /*
-        * Dimensions de la taille des cases de la grille 
-        */
-        int scale = 1;
-
-        /*
         * Nombre de pas entre la hauteur maximale et minimale
         */
         int horizontalStep = 250;
