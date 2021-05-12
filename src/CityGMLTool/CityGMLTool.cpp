@@ -2,7 +2,6 @@
 
 CityGMLTool::CityGMLTool()
 {
-	this->modules.push_back(new XMLParser("xmlparser"));
 	this->modules.push_back(new Voxelizer("voxelizer"));
 	this->modules.push_back(new CityGMLTriangulate("triangulate"));
 }
@@ -17,8 +16,6 @@ CityGMLTool::~CityGMLTool()
 	}
 
 	this->modules.clear();
-
-	delete this->cityModel;
 }
 
 Module* CityGMLTool::findModuleByName(const std::string name)
@@ -33,6 +30,7 @@ Module* CityGMLTool::findModuleByName(const std::string name)
 	}
 }
 
+<<<<<<< HEAD
 void CityGMLTool::parse(std::string & filename)
 {	
 	XMLParser* xmlparser = static_cast<XMLParser*>(this->findModuleByName("xmlparser"));
@@ -101,6 +99,15 @@ void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gr
 
 	voxelizer->init(mapSizeX, mapSizeY,horizontalStep, gridmode, material, debug);
 	triangulate->initTriangleList(cityModel);
+=======
+void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gridmode, bool material, std::string& filename) {
+	Voxelizer* voxelizer = static_cast<Voxelizer*>(this->findModuleByName("voxelizer"));
+	CityGMLTriangulate* triangulate = static_cast<CityGMLTriangulate*>(this->findModuleByName("triangulate"));
+
+	voxelizer->init(mapSizeX, mapSizeY,horizontalStep, gridmode, material);
+	triangulate->initTriangleList(filename);
+	//triangulate->initTriangleList(cityModel);
+>>>>>>> 57780e00953dcb4cc6213e82113705c844daf5e7
 	
 	triangulate->printBaseTriangleList(triangulate->getTriangleList());
 	
@@ -121,13 +128,7 @@ void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gr
 void CityGMLTool::triangulate(std::string& filename) {
 
 	CityGMLTriangulate* cityTriangulate = static_cast<CityGMLTriangulate*>(this->findModuleByName("triangulate"));
-
-	if (cityModel) {
-		cityTriangulate->initTriangleList(cityModel);
-		cityTriangulate->printBaseTriangleList(cityTriangulate->getTriangleList());
-		std::cout << "Object triangulate creer !";
-		//cityTriangulate->TileTriangleList(filename);
-	} else {
-		std::cout << "Triangulate:.............................:[FAILED]: CityModel NULL" << std::endl;
-	}
+	cityTriangulate->initTriangleList(filename);
+	cityTriangulate->printBaseTriangleList(cityTriangulate->getTriangleList());
+	std::cout << "Object triangulate creer !";	
 }	
