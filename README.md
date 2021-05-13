@@ -134,24 +134,29 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
     </p>
 
 * ## Voxelizer
-  ```sh
-  cd DA-POM-Legonizer/x64/Debug
-  ./<executable> [MYFILE.gml] --voxelizer[OPTIONS] 
-  ```
-
-  Exemple : 
-  ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 -1 1 1 ```
-  ou
-  ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 -1 1 1 output/heightmap.csv output/result.obj```
+  * ### Exécution
+    ```sh
+    cd DA-POM-Legonizer/x64/Debug
+    ./<executable> [MYFILE.gml] --voxelizer[OPTIONS] 
+    ```
+    #### Exemples : 
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 ``` 
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 output/heightmap.csv ```
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 output/heightmap.csv output/result.obj ```
   
-  | Options | optionnel | type | par défaut | Commande |
-  | --- | --- | --- | --- | --- |
-  | Nombre de lancés de rayons de X | non | int | 100 | mapSizeX |
-  | Nombre de lancés de rayons de Y | non | int | 100 | mapSizeY |
-  | Nombre de découpage en hauteur | non | int | 1 | horizontalStep |
-  | Mode de remaillage | non | int | 1 | gridmode|
-  | Matériaux différents pour le sol et les bâtiments | non | bool | 1 | material |
-  | Nom de fichier en sortie de la heigtmap (.csv) | oui | std::string | output/heightmap.csv| fileNameCSV
-  | Nom de fichier en sortie (.obj) | oui | std::string | output/result.obj | outPutFileName
+  * ### Objectifs
+    Transformer un fichier GML en une heightmap puis en un maillage voxélisé en .obj
+    
+  * ### Paramètres
+  
+    | Options | optionnel | type | par défaut | Commande |
+    | --- | --- | --- | --- | --- |
+    | Nombre de lancés de rayons de X | non | int | 100 | mapSizeX |
+    | Nombre de lancés de rayons de Y | non | int | 100 | mapSizeY |
+    | Nombre de découpage en hauteur | non | int | 1 | horizontalStep |
+    | Mode de remaillage | non | int | 1 | gridmode|
+    | Matériaux différents pour le sol et les bâtiments | non | bool | 1 | material |
+    | Nom de fichier en sortie de la heigtmap (.csv) | oui | std::string | output/heightmap.csv| fileNameCSV
+    | Nom de fichier en sortie (.obj) | oui | std::string | output/result.obj | outPutFileName
 
 ###### Auteur : *Rémi Lhoste et Julian Sorrenti*.
