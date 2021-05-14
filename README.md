@@ -97,7 +97,7 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
   * ### Objectif
     Permet d'afficher des informations en plus dans les modules Triangulate et Voxelizer
 
-* ## Triangulate
+* ## [Triangulate](https://github.com/VCityTeam/DA-POM-Legonizer/wiki/Triangulate)
   * ### Exécution
     ```sh
     cd DA-POM-Legonizer/x64/Debug
@@ -108,7 +108,7 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
   * ### Fonctionnement 
     Une fois le fichier parsé nous obtenons un objet `CityModel`. Cet objet nous allons le parcourir jusqu’au polygone. À partir du `Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de sommets pour construire nos triangles afin de les ajouter notre liste de triangle.       
 
-* ## Voxelizer
+* ## [Voxelizer](https://github.com/VCityTeam/DA-POM-Legonizer/wiki/Voxelizer)
   * ### Exécution
     ```sh
     cd DA-POM-Legonizer/x64/Debug
