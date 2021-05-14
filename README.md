@@ -1,3 +1,18 @@
+# Legonizer
+
+Bonjour,  bienvenue sur le projet Legonizer. Ce projet a pour but de recuperer des données géographiques de les traitées ( Trianguler et Voxelizer ) pour obtenir une représentation en légo des données. Dans ce projet il y a deux modules principaux, la triangulisation et la voxelisation d'un mesh.
+
+*******
+### Table des matières  
+* [Installation](#installation)
+* [Modules](#modules)
+* [Debug](#debug)
+* [Triangulate](#triangulate)
+* [Voxelizer](#voxelizer)
+
+*******
+
+
 # Installation
 
 ## Step 1 - Cloner le dépôt
@@ -68,65 +83,55 @@ Le répertoire d'include de la bibliothèque sera probablement : `/usr/include/l
 
 Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuration des directives d'include, arguments de la ligne de commande, etc sera spécifique à votre IDE.
 
+*******
+
 # Modules
 
-## Parser 
+* ## Debug
+  * ### Execution
+    ```sh
+    cd DA-POM-Legonizer/x64/Debug
+    ./<executable> [MYFILE.gml] --debug [Modulename] [parametres]
+    ```
 
-## Triangulate
-### Exécution
-```sh
-cd DA-POM-Legonizer/x64/Debug
-./<executable> [MYFILE.gml] --triangulate
-```
-### Objectif
-Le but de ce module est de créer une liste de triangle à partir d'un fichier .gml ([Geography Markup Language](https://fr.wikipedia.org/wiki/Geography_Markup_Language)). Ce fichier est parsé dans la fonction `initTriangleList`. Cette liste nous sera utile par la suite pour le lancer de rayon.
-### Fonctionnement 
-Une fois le fichier parsé nous obtenons un objet `CityModel`. Cet objet nous allons le parcourir jusqu’au polygone comme vous pouvez le voir ci-dessous. À partir du `
-Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de sommets pour construire nos triangles afin de les ajouter notre liste de triangle. </br>
-<p align="center">
-<img src="https://github.com/VCityTeam/DA-POM-Legonizer/blob/main/documentation/screenshots/triangulate/schema.png" width=40%>
-</p>
+  * ### Objectif
+    Permet d'afficher des informations en plus dans les modules Triangulate et Voxelizer
 
-### Fonctions
-| Nom | Paramètre | Commentaire |
-| --- | --- | --- |
-| initTriangleList | string GMLFile | Créer notre liste de triangle. |
-| printBaseTriangleList | ListTriangle | Créer un .obj afin de visualiser notre liste de triangle. |
-| get[X/Y/Z][Max/Min] |  | Retourne la valeur maximale et minimale sur l’axe X, Y, Z d’une liste de triangle. |
-| initTriangleListCityModel | CityModel | Créer notre liste de triangle. Utilisé lors de nos tests |
-### Screnshots
-<p align="center">Mairie de Vaulx-en-Velin</p>
-<p align="center">
-<img src="https://github.com/VCityTeam/DA-POM-Legonizer/blob/main/documentation/screenshots/triangulate/MAIRIE_VAULX_EN_VELIN.PNG" width=50% >
-</p>
-<p align="center">Eglise d'ecully</p>
-<p align="center">
-<img src="https://github.com/VCityTeam/DA-POM-Legonizer/blob/main/documentation/screenshots/triangulate/EGLISE_ECULLY.PNG" width=50%>
-</p>
-<p align="center">Villeurbanne</p>
-<p align="center">
-<img src="https://github.com/VCityTeam/DA-POM-Legonizer/blob/main/documentation/screenshots/triangulate/Villeurbanne.PNG" width=50%>
-</p>
+* ## Triangulate
+  * ### Exécution
+    ```sh
+    cd DA-POM-Legonizer/x64/Debug
+    ./<executable> [MYFILE.gml] --triangulate
+    ```
+  * ### Objectif
+    Le but de ce module est de créer une liste de triangle à partir d'un fichier .gml ([Geography Markup Language](https://fr.wikipedia.org/wiki/Geography_Markup_Language)). Ce fichier est parsé dans la fonction `initTriangleList`. Cette liste nous sera utile par la suite pour le lancer de rayon.
+  * ### Fonctionnement 
+    Une fois le fichier parsé nous obtenons un objet `CityModel`. Cet objet nous allons le parcourir jusqu’au polygone. À partir du `Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de sommets pour construire nos triangles afin de les ajouter notre liste de triangle.       
 
-## Voxelizer
+* ## Voxelizer
+  * ### Exécution
+    ```sh
+    cd DA-POM-Legonizer/x64/Debug
+    ./<executable> [MYFILE.gml] --voxelizer[OPTIONS] 
+    ```
+    #### Exemples : 
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 ``` 
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 output/heightmap.csv ```
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 output/heightmap.csv output/result.obj ```
+  
+  * ### Objectifs
+    Transformer un fichier GML en une heightmap puis en un maillage voxélisé en .obj
+    
+  * ### Paramètres
+  
+    | Options | optionnel | type | par défaut | Commande |
+    | --- | --- | --- | --- | --- |
+    | Nombre de lancés de rayons de X | non | int | 100 | mapSizeX |
+    | Nombre de lancés de rayons de Y | non | int | 100 | mapSizeY |
+    | Nombre de découpage en hauteur | non | int | 1 | horizontalStep |
+    | Mode de remaillage | non | int | 1 | gridmode|
+    | Matériaux différents pour le sol et les bâtiments | non | bool | 1 | material |
+    | Nom de fichier en sortie de la heigtmap (.csv) | oui | std::string | output/heightmap.csv| fileNameCSV
+    | Nom de fichier en sortie (.obj) | oui | std::string | output/result.obj | outPutFileName
 
-# Utilisation
-### Exécution
-#### Voxelizer
-```sh
-cd DA-POM-Legonizer/x64/Debug
-./<executable> [MYFILE.gml] --voxelizer[OPTIONS] 
-```
-
-Exemple : 
-``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 -1 1 1 ```
-
-| Options | optionnel | type | par défaut | Commande |
-| --- | --- | --- | --- | --- |
-| Nombre de lancés de rayons de X | non | int | 100 | mapSizeX |
-| Nombre de lancés de rayons de Y | non | int | 100 | mapSizeY |
-| Nombre de découpage en hauteur | non | int | 1 | horizontalStep |
-| Mode de remaillage | oui | int | 1 | gridmode|
-| Matériaux différents pour le sol et les bâtiments | oui | bool | 1 | material |
-| Nom de fichier en sortie (.obj) | oui | std::string | output.obj | outPutFileName
-
+###### Auteur : *Rémi Lhoste et Julian Sorrenti*.
