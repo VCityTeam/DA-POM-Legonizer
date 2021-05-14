@@ -116,8 +116,8 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
     ```
     #### Exemples : 
       * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 ``` 
-      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 output/heightmap.csv ```
-      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 output/heightmap.csv output/result.obj ```
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 output/result.obj ```
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 output/result.obj output/heightmap.csv ```
   
   * ### Objectifs
     Transformer un fichier GML en une heightmap puis en un maillage voxélisé en .obj
@@ -128,10 +128,11 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
     | --- | --- | --- | --- | --- |
     | Nombre de lancés de rayons de X | non | int | 100 | mapSizeX |
     | Nombre de lancés de rayons de Y | non | int | 100 | mapSizeY |
-    | Nombre de découpage en hauteur | non | int | 1 | horizontalStep |
+    | Nombre de découpage en hauteur | non | int | 50 | horizontalStep |
     | Mode de remaillage | non | int | 1 | gridmode|
     | Matériaux différents pour le sol et les bâtiments | non | bool | 1 | material |
-    | Nom de fichier en sortie de la heigtmap (.csv) | oui | std::string | output/heightmap.csv| fileNameCSV
     | Nom de fichier en sortie (.obj) | oui | std::string | output/result.obj | outPutFileName
+    | Nom de fichier en sortie de la heigtmap (.csv) | oui | std::string | output/heightmap.csv| fileNameCSV
+
 
 ###### Auteur : *Rémi Lhoste et Julian Sorrenti*.
