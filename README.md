@@ -1,6 +1,6 @@
 # Legonizer
 
-Bonjour,  bienvenue sur le projet Legonizer. Il y a deux modules principaux, la triangulisation et la voxelisation d'un mesh.
+Bonjour,  bienvenue sur le projet Legonizer. Ce projet a pour but de recuperer des données géographiques de les traitées ( Trianguler et Voxelizer ) pour obtenir une représentation en légo des données. Dans ce projet il y a deux modules principaux, la triangulisation et la voxelisation d'un mesh.
 
 *******
 Table des matières  
