@@ -3,12 +3,12 @@
 Bonjour,  bienvenue sur le projet Legonizer. Ce projet a pour but de recuperer des données géographiques de les traitées ( Trianguler et Voxelizer ) pour obtenir une représentation en légo des données. Dans ce projet il y a deux modules principaux, la triangulisation et la voxelisation d'un mesh.
 
 *******
-Table des matières  
- 1. [Installation](#installation)
- 2. [Modules](#modules)
- 3. [Debug](#debug)
- 4. [Triangulate](#triangulate)
- 5. [Voxelizer](#voxelizer)
+### Table des matières  
+* [Installation](#installation)
+* [Modules](#modules)
+* [Debug](#debug)
+* [Triangulate](#triangulate)
+* [Voxelizer](#voxelizer)
 
 *******
 
