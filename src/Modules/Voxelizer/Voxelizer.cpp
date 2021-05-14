@@ -69,14 +69,11 @@ void Voxelizer::computeHeightMap(CityGMLTriangulate* cityGMLTriangulate)
 
 	int nbrays = mapsize.x * mapsize.y;
 	int progressionPart = nbrays / 20;
-	std::cout << std::endl << ":::::::::: Launching "<< nbrays <<" rays ::::::::::" << std::endl;
+	std::cout << std::endl << ":::::::::: Launching "<< nbrays <<" rays in multithread ::::::::::" << std::endl;
 	std::vector<Ray*> rays;
 	//lancer un rayon sur chaque points d'un grille pr�d�fini
 	for (int i = 0; i <mapsize.x; i++) {
 		for (int j = 0; j< mapsize.y; j++) {
-			if ((j + i * mapsize.x) % progressionPart == 0)
-				std::cout << j + i * mapsize.x << " / " << nbrays << std::endl;
-
 			float divx = static_cast<float>((mapsize.x-1) - i) / static_cast<float>(mapsize.x);
 			float divy = static_cast<float>(j) / static_cast<float>(mapsize.y);
 			double posX = offsetX + (divx * lx);
@@ -86,14 +83,14 @@ void Voxelizer::computeHeightMap(CityGMLTriangulate* cityGMLTriangulate)
 			rays.push_back(new Ray(position, direction, j + (i * mapsize.y)));
 		}
 	}
-	std::cout << nbrays << " / " << nbrays << std::endl;
 
 	sizeStep = (zMax - zMin)/ horizontalStep;
 	if(debug)
 		std::cout <<std::endl<< "sizeStep = " << sizeStep << std::endl;
+	std::cout << std::endl << "Progression of thread 0 " << std::endl;
 	//Recup�rer les hit des points pour r�aliser une height map
 	std::vector<Hit*> hits = *RayTracing(cityGMLTriangulate->getTriangleList(), rays, false);
-	std::cout << ":::::::::: Iterating on Hit ( number of hit : "<< hits.size() <<" ) ::::::::::" << std::endl;
+	std::cout << ":::::::::: Iterating on Hit ::::::::::" << std::endl;
 	for (Hit* hit : hits) {
 		double height = (float)(zMax-zMin) - hit->distance;
 		double delta = 0.0;
@@ -356,9 +353,9 @@ void Voxelizer::remesh()
 			for (int j = 0; j < mapsize.y; j++) {
 				int index = mapsize.x * j + i;
 				if (i < mapsize.x - 1) {
-					int deltaheight = tiles.at(index).height - tiles.at(index + 1).height;
+					double deltaheight = tiles.at(index).height - tiles.at(index + 1).height;
 
-					if (deltaheight > 0) {
+					if (deltaheight > 0.0) {
 
 						int newa = tiles.at(index + 1).top.a;
 						int newb = tiles.at(index + 1).top.b;
@@ -366,7 +363,7 @@ void Voxelizer::remesh()
 						int newd = tiles.at(index).top.d;
 						tiles.at(index).pushRectangleFaceRight(Rectangleface(newa, newb, newc, newd, 4, 4, 5, 6, 7));
 					}
-					else if (deltaheight < 0) {
+					else if (deltaheight < 0.0) {
 
 						int newa = tiles.at(index + 1).top.a;
 						int newb = tiles.at(index + 1).top.b;
@@ -376,15 +373,15 @@ void Voxelizer::remesh()
 					}
 				}
 				if (j < mapsize.y - 1) {
-					int deltaheight = tiles.at(index).height - tiles.at(index + mapsize.y).height;
-					if (deltaheight > 0) {
+					double deltaheight = tiles.at(index).height - tiles.at(index + mapsize.y).height;
+					if (deltaheight > 0.0) {
 						int newa = tiles.at(index + mapsize.y).top.a;
 						int newb = tiles.at(index).top.b;
 						int newc = tiles.at(index).top.c;
 						int newd = tiles.at(index + mapsize.y).top.d;
 						tiles.at(index).pushRectangleFaceDown(Rectangleface(newa, newb, newc, newd, 0, 4, 5, 6, 7));
 					}
-					else if (deltaheight < 0) {
+					else if (deltaheight < 0.0) {
 						int newa = tiles.at(index + mapsize.y).top.a;
 						int newb = tiles.at(index).top.b;
 						int newc = tiles.at(index).top.c;

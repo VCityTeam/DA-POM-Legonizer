@@ -32,4 +32,5 @@ target/
 data.gml
 /x64/
 *.obj
+output/*
 
