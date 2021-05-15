@@ -102,6 +102,17 @@ struct Voxelizer : public Module
         */
         bool material = false;
 
+        /*
+        * @brief longueur d'une case en X
+        */
+        double sizeStepX;
+
+        /*
+        * @brief longueur d'une case en Y
+        */
+        double sizeStepY;
+
+
 };
 
 #endif

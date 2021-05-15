@@ -27,10 +27,11 @@ void RayLoop(const RayTracingData& data, int i)
 {
     for (unsigned int k = 0; k < data.rowToDo->size(); k++)
     {
-        if (k % (data.rowToDo->size() / 20) == 0 && i == 0)
-            std::cout << k << " / " << data.rowToDo->size() << std::endl;
+        if (data.rowToDo->size() > 0) {
+            if (k % (data.rowToDo->size() / 20) == 0 && i == 0)
+                std::cout << k << " / " << data.rowToDo->size() << std::endl;
+        }
         Ray* ray = data.rowToDo->at(k);
-
         for (unsigned int l = 0; l < data.triangles->triangles.size(); l++)
         {
             Triangle* tri = data.triangles->triangles.at(l);

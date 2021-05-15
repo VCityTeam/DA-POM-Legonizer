@@ -67,6 +67,10 @@ void Voxelizer::computeHeightMap(CityGMLTriangulate* cityGMLTriangulate)
 		std::cout << "ly = " << ly << std::endl;
 	}
 
+	sizeStepX = (static_cast<float>(1) / static_cast<float>(mapsize.x)) * lx;
+	sizeStepY = (static_cast<float>(1) / static_cast<float>(mapsize.y)) * ly;
+
+
 	int nbrays = mapsize.x * mapsize.y;
 	int progressionPart = nbrays / 20;
 	std::cout << std::endl << ":::::::::: Launching "<< nbrays <<" rays in multithread ::::::::::" << std::endl;
@@ -149,11 +153,11 @@ void Voxelizer::remesh()
 			int currentIndex = j + i * mapsize.y;
 			double h = tiles.at(currentIndex).height;
 
-
-			TVec3d a(i, j, h);
-			TVec3d b(i + 1, j, h);
-			TVec3d c(i + 1, j + 1, h);
-			TVec3d d(i, j + 1, h);
+			double height = h;
+			TVec3d a(i * sizeStepX, j * sizeStepY, height);
+			TVec3d b(i * sizeStepX + sizeStepX, j * sizeStepY, height);
+			TVec3d c(i * sizeStepX + sizeStepX, j * sizeStepY + sizeStepY, height);
+			TVec3d d(i * sizeStepX, j * sizeStepY + sizeStepY, height);
 
 			//Test if the last face in x was at the same height
 			bool usePredj = false;
@@ -171,6 +175,21 @@ void Voxelizer::remesh()
 				}
 			}
 
+			bool usePredDiag1 = false;
+			if (i > 0 && j>0) {
+				if (a == vertexlist.at(tiles.at(currentIndex - mapsize.y - 1).top.c)) {
+					usePredDiag1 = true;
+				}
+			}
+
+			bool usePredDiag2 = false;
+			if (i > 0 && j < mapsize.y - 1) {
+				if (d == vertexlist.at(tiles.at(currentIndex - mapsize.y + 1).top.d)) {
+					usePredDiag2 = true;
+				}
+			}
+
+
 			if (usePredj){
 				//case where j-1 == j
 				vertexlist.push_back(c);
@@ -179,17 +198,27 @@ void Voxelizer::remesh()
 					tiles.at(currentIndex).top = Rectangleface(tiles.at(currentIndex - 1).top.d, 
 																tiles.at(currentIndex - 1).top.c, 
 																indice - 1,
-																tiles.at(currentIndex - mapsize.x).top.c,
+																tiles.at(currentIndex - mapsize.y).top.c,
 																2, 0, 1, 2, 3);
 				}
 				else {
-					vertexlist.push_back(d);
-					int indice = vertexlist.size();
-					tiles.at(currentIndex).top = Rectangleface(tiles.at(currentIndex - 1).top.d, 
-																tiles.at(currentIndex - 1).top.c, 
-																indice - 2, 
-																indice - 1, 
-																2, 0, 1, 2, 3);
+					if (usePredDiag2) {
+						int indice = vertexlist.size();
+						tiles.at(currentIndex).top = Rectangleface(tiles.at(currentIndex - 1).top.d,
+							tiles.at(currentIndex - 1).top.c,
+							indice - 1,
+							tiles.at(currentIndex - mapsize.y + 1).top.b,
+							2, 0, 1, 2, 3);
+					}
+					else {
+						vertexlist.push_back(d);
+						int indice = vertexlist.size();
+						tiles.at(currentIndex).top = Rectangleface(tiles.at(currentIndex - 1).top.d,
+							tiles.at(currentIndex - 1).top.c,
+							indice - 2,
+							indice - 1,
+							2, 0, 1, 2, 3);
+					}
 				}
 
 			} else {
@@ -202,20 +231,54 @@ void Voxelizer::remesh()
 					tiles.at(currentIndex).top = Rectangleface(indice - 3, 
 																indice - 2, 
 																indice - 1, 
-																tiles.at(currentIndex - mapsize.x).top.c, 
+																tiles.at(currentIndex - mapsize.y).top.c, 
 																2, 0, 1, 2, 3);
 				}
 				else {
-					vertexlist.push_back(a);
-					vertexlist.push_back(b);
-					vertexlist.push_back(c);
-					vertexlist.push_back(d);
-					int indice = vertexlist.size();
-					tiles.at(currentIndex).top = Rectangleface(indice - 4, 
-																indice - 3, 
-																indice - 2, 
-																indice - 1, 
-																2, 0, 1, 2, 3);
+					if (usePredDiag1 && !usePredDiag2) {
+						vertexlist.push_back(b);
+						vertexlist.push_back(c);
+						vertexlist.push_back(d);
+						int indice = vertexlist.size();
+						tiles.at(currentIndex).top = Rectangleface(tiles.at(currentIndex - mapsize.y - 1).top.c,
+							indice - 3,
+							indice - 2,
+							indice - 1,
+							2, 0, 1, 2, 3);
+					}
+					else if (usePredDiag2 && !usePredDiag1) {
+						vertexlist.push_back(a);
+						vertexlist.push_back(b);
+						vertexlist.push_back(c);
+						int indice = vertexlist.size();
+						tiles.at(currentIndex).top = Rectangleface(indice - 3,
+							indice - 2,
+							indice - 1,
+							tiles.at(currentIndex - mapsize.y + 1).top.b,
+							2, 0, 1, 2, 3);
+					}
+					else if (usePredDiag1 && usePredDiag2) {
+						vertexlist.push_back(b);
+						vertexlist.push_back(c);
+						int indice = vertexlist.size();
+						tiles.at(currentIndex).top = Rectangleface(tiles.at(currentIndex - mapsize.y - 1).top.c,
+							indice - 2,
+							indice - 1,
+							tiles.at(currentIndex - mapsize.y + 1).top.b,
+							2, 0, 1, 2, 3);
+					}
+					else {
+						vertexlist.push_back(a);
+						vertexlist.push_back(b);
+						vertexlist.push_back(c);
+						vertexlist.push_back(d);
+						int indice = vertexlist.size();
+						tiles.at(currentIndex).top = Rectangleface(indice - 4,
+							indice - 3,
+							indice - 2,
+							indice - 1,
+							2, 0, 1, 2, 3);
+					}
 				}
 			}
 		}
@@ -241,7 +304,7 @@ void Voxelizer::remesh()
 						int newa = tiles.at(index + 1).top.a;
 						int newb = tiles.at(index + 1).top.b;
 						//Middle points
-						for (double k = 1; k * sizeStep <= deltaheight-1; k++) {
+						for (double k = 1; k * sizeStep <= deltaheight - sizeStep*0.99; k++) {
 							
 							TVec3d vecA = vertexlist.at(newa);
 							//new c
@@ -267,7 +330,7 @@ void Voxelizer::remesh()
 						int newd = tiles.at(index).top.d;
 						int newc = tiles.at(index).top.c;
 						//Middle points
-						for (double k = 1; k * sizeStep<= deltaheight-1; k++) {
+						for (double k = 1; k * sizeStep<= deltaheight - sizeStep*0.99; k++) {
 							TVec3d vecD = vertexlist.at(newd);
 							//new a
 							vertexlist.push_back(TVec3d(vecD.x, vecD.y, vecD.z + sizeStep));
@@ -298,7 +361,7 @@ void Voxelizer::remesh()
 						int newa = tiles.at(index + mapsize.y).top.a;
 						int newd = tiles.at(index + mapsize.y).top.d;
 						//Middle points
-						for (double k = 1; k * sizeStep<= deltaheight-1; k++) {
+						for (double k = 1; k * sizeStep<= deltaheight - sizeStep*0.99; k++) {
 							TVec3d vecA = vertexlist.at(newa);
 							//new b
 							vertexlist.push_back(TVec3d(vecA.x, vecA.y , vecA.z + sizeStep));
@@ -325,7 +388,7 @@ void Voxelizer::remesh()
 						int newb = tiles.at(index).top.b;
 						int newc = tiles.at(index).top.c;
 						//Middle points
-						for (double k = 1; k * sizeStep <= deltaheight-1; k++) {
+						for (double k = 1; k * sizeStep <= deltaheight - sizeStep*0.99; k++) {
 							//les points du milieu
 							TVec3d vecC = vertexlist.at(newb);
 							//new a
