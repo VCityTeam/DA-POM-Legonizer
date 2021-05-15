@@ -179,12 +179,13 @@ void Voxelizer::remesh()
 			if (i > 0 && j>0) {
 				if (a == vertexlist.at(tiles.at(currentIndex - mapsize.y - 1).top.c)) {
 					usePredDiag1 = true;
+
 				}
 			}
 
 			bool usePredDiag2 = false;
 			if (i > 0 && j < mapsize.y - 1) {
-				if (d == vertexlist.at(tiles.at(currentIndex - mapsize.y + 1).top.d)) {
+				if (d == vertexlist.at(tiles.at(currentIndex - mapsize.y + 1).top.b)) {
 					usePredDiag2 = true;
 				}
 			}
@@ -203,6 +204,7 @@ void Voxelizer::remesh()
 				}
 				else {
 					if (usePredDiag2) {
+						std::cout << "usePredDiag2 usepredJ" << std::endl;
 						int indice = vertexlist.size();
 						tiles.at(currentIndex).top = Rectangleface(tiles.at(currentIndex - 1).top.d,
 							tiles.at(currentIndex - 1).top.c,
@@ -236,6 +238,7 @@ void Voxelizer::remesh()
 				}
 				else {
 					if (usePredDiag1 && !usePredDiag2) {
+						std::cout << "usePredDiag1" << std::endl;
 						vertexlist.push_back(b);
 						vertexlist.push_back(c);
 						vertexlist.push_back(d);
@@ -247,6 +250,7 @@ void Voxelizer::remesh()
 							2, 0, 1, 2, 3);
 					}
 					else if (usePredDiag2 && !usePredDiag1) {
+						std::cout << "usePredDiag2 test" << std::endl;
 						vertexlist.push_back(a);
 						vertexlist.push_back(b);
 						vertexlist.push_back(c);
@@ -258,6 +262,7 @@ void Voxelizer::remesh()
 							2, 0, 1, 2, 3);
 					}
 					else if (usePredDiag1 && usePredDiag2) {
+						std::cout << "usePredDiag1 et 2" << std::endl;
 						vertexlist.push_back(b);
 						vertexlist.push_back(c);
 						int indice = vertexlist.size();
