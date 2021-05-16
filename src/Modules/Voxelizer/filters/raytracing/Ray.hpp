@@ -6,7 +6,7 @@
 #ifndef __RAY_HPP__
 #define __RAY_HPP__
 
-#include "osg/Camera"
+
 #include "../../../../CityModel/Vecs.hpp"
 #include "../../filters_export.h"
 #include <windows.h>
@@ -36,12 +36,7 @@ struct Ray
     */
     bool Intersect(Triangle* triangle, Hit* hit = nullptr);
 
-    /**
-    *	@brief Build a ray from a camera and a fragment coordinate
-    *	@param fragCoord Coordinate on screen of the ray
-    *	@param cam Camera used to build the ray
-    */
-    void BuildRd(TVec2d fragCoord, osg::Camera* cam);
+
 
     static float DotCross(TVec3d v0, TVec3d v1, TVec3d v2);
     static TVec3d Normalized(TVec3d vec);
@@ -54,25 +49,5 @@ struct Ray
 	int sign[3];
 };
 
-/**
-*	@brief A collection of rays
-*/
-struct RayCollection
-{
-    /**
-    *	@brief Build a new collection
-    */
-    RayCollection(std::vector<Ray*> rays = std::vector<Ray*>());
-
-    ~RayCollection();
-
-    /**
-    *	@brief Build a collection of rays from a camera
-    *	@param cam The camera used to build the collection
-    */
-    static RayCollection* BuildCollection(osg::Camera* cam);
-
-    std::vector<Ray*> rays;///< Rays of the collection
-};
 
 #endif

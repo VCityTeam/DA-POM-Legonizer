@@ -8,7 +8,7 @@
 
 #include "Ray.hpp"
 #include "../../filters_export.h"
-
+#include <vector>
 struct TriangleList;
 
 /**
