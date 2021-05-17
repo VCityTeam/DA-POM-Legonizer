@@ -11,9 +11,7 @@
 #include "../Modules/Triangulate/CityGMLTriangulate.hpp"
 #include "../Modules/Triangulate/Triangle.hpp"
 #include "../Modules/Triangulate/tile.hpp"
-#include "../Modules/GMLCut/GMLCut.hpp"
 
-#include "../Modules/GMLCut/TextureCityGML.hpp"
 #include "../Modules/Voxelizer/Voxelizer.hpp"
 
 class CityGMLTool
