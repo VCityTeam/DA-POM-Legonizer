@@ -23,12 +23,15 @@ struct RayTracingData
 };
 
 //Loop through all triangles and check if any rays intersect with triangles
-void RayLoop(const RayTracingData& data)
+void RayLoop(const RayTracingData& data, int i)
 {
     for (unsigned int k = 0; k < data.rowToDo->size(); k++)
     {
+        if (data.rowToDo->size() > 0) {
+            if (k % (data.rowToDo->size() / 20) == 0 && i == 0)
+                std::cout << k << " / " << data.rowToDo->size() << std::endl;
+        }
         Ray* ray = data.rowToDo->at(k);
-
         for (unsigned int l = 0; l < data.triangles->triangles.size(); l++)
         {
             Triangle* tri = data.triangles->triangles.at(l);
@@ -91,11 +94,11 @@ std::vector<Hit*>* RayTracing(TriangleList* triangles, const std::vector<Ray*>& 
         data.Hits = &hitsArray[i];
         data.breakOnFirstInter = breakOnFirstInter;
 
-        std::thread* t = new std::thread(RayLoop,data);
+        std::thread* t = new std::thread(RayLoop,data, i);
         threads.push_back(t);
     }
 
-    //std::cout << "Thread Launched " << std::endl;
+    //std::cout << "Raycast Thread Launched " << std::endl;
 
     for(unsigned int i = 0; i < tCount; i++)//Join all our thread and update global data min and max distance
     {

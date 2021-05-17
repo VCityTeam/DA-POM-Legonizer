@@ -6,6 +6,9 @@
 #include "UV.hpp"
 #include "Normales.hpp"
 
+/*
+* @brief contient les indices des vertex, normale et uv
+*/
 struct Rectangleface {
 	public : 
 		Rectangleface();
