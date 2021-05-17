@@ -36,20 +36,12 @@ void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gr
 
 	Voxelizer* voxelizer = static_cast<Voxelizer*>(this->findModuleByName("voxelizer"));
 	CityGMLTriangulate* triangulate = static_cast<CityGMLTriangulate*>(this->findModuleByName("triangulate"));
-
+	
 	voxelizer->init(mapSizeX, mapSizeY,horizontalStep, gridmode, material, debug);
 	triangulate->initTriangleList(inPutFileName, debug);
 
-	
 	triangulate->printBaseTriangleList(triangulate->getTriangleList());
 	
-	/*for (int i = 0; i < triangulate->getTriangleListSize(); i++) {
-		std::cout << "triangle " << i << std::endl;
-		std::cout << triangulate->getTriangleList()->triangles.at(0)->a<< std::endl;
-		std::cout << triangulate->getTriangleList()->triangles.at(0)->b << std::endl;
-		std::cout << triangulate->getTriangleList()->triangles.at(0)->c << std::endl;
-	}*/
-
 	voxelizer->computeHeightMap(triangulate);
 	voxelizer->printHeightMap(fileNameCSV);
 	voxelizer->remesh();

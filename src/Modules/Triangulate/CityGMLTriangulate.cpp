@@ -28,7 +28,7 @@ TriangleList* CityGMLTriangulate::getTriangleList()
 
 void CityGMLTriangulate::printBaseTriangleList(TriangleList* triangleList) {
     std::ofstream myfile;
-	myfile.open("base.obj");
+	myfile.open("output/triangulate.obj");
 	myfile.clear();
 	myfile << "# Blender v2.91.2 OBJ File: ''" << std::endl;
 	myfile << "#www.blender.org" << std::endl;
