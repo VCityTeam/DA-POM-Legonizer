@@ -98,6 +98,29 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
   * ### Fonctionnement 
     Une fois le fichier parsé nous obtenons un objet `CityModel`. Cet objet nous allons le parcourir jusqu’au polygone. À partir du `Polygon` nous allons utiliser les sommets (`vertices`) ainsi que les indices de sommets pour construire nos triangles afin de les ajouter notre liste de triangle.       
 
+
+* ## [Heightmap](https://github.com/VCityTeam/DA-POM-Legonizer/wiki/Heightmap)
+  * ### Exécution
+    ```sh
+    cd DA-POM-Legonizer/x64/Debug
+    ./<executable> [MYFILE.gml] --heightmap[OPTIONS] 
+    ```
+    #### Exemples : 
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --heightmap 100 100 50 ``` 
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --heightmap 100 100 50 output/result.obj ```
+  
+  * ### Objectifs
+    Transformer un fichier GML en une heightmap
+    
+  * ### Paramètres
+  
+    | Options | optionnel | type | par défaut | Commande |
+    | --- | --- | --- | --- | --- |
+    | Nombre de lancés de rayons de X | non | int | 100 | mapSizeX |
+    | Nombre de lancés de rayons de Y | non | int | 100 | mapSizeY |
+    | Nombre de découpage en hauteur | non | int | 50 | horizontalStep |
+    | Nom de fichier en sortie de la heigtmap (.csv) | oui | std::string | output/heightmap.csv| fileNameCSV
+    
 * ## [Voxelizer](https://github.com/VCityTeam/DA-POM-Legonizer/wiki/Voxelizer)
   * ### Exécution
     ```sh
@@ -105,9 +128,9 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
     ./<executable> [MYFILE.gml] --voxelizer[OPTIONS] 
     ```
     #### Exemples : 
-      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 ``` 
-      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 output/result.obj ```
-      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 output/result.obj output/heightmap.csv ```
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 0``` 
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 0 output/result.obj ```
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 0 output/result.obj output/heightmap.csv ```
   
   * ### Objectifs
     Transformer un fichier GML en une heightmap puis en un maillage voxélisé en .obj
@@ -121,6 +144,7 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
     | Nombre de découpage en hauteur | non | int | 50 | horizontalStep |
     | Mode de remaillage | non | int | 1 | gridmode|
     | Matériaux différents pour le sol et les bâtiments | non | bool | 1 | material |
+    | Ecrit un .obj par hauteur ( horizontaleStep ) | non | bool | 0 | material |
     | Nom de fichier en sortie (.obj) | oui | std::string | output/result.obj | outPutFileName
     | Nom de fichier en sortie de la heigtmap (.csv) | oui | std::string | output/heightmap.csv| fileNameCSV
 
