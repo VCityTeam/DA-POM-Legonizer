@@ -1,7 +1,7 @@
 #ifndef __Tile_HPP__
 #define __Tile_HPP__
 
-#include "TileType.hpp"
+#include "../Heightmap/TileType.hpp"
 #include "Rectangleface.hpp"
 #include <vector>
 
@@ -17,8 +17,8 @@ struct TileVoxel
     std::vector<Rectangleface> down;
 
     TileVoxel();
-    TileVoxel(int height);
-    TileVoxel(int height, TileType type);
+    TileVoxel(double height);
+    TileVoxel(double height, TileType type);
     
     void pushRectangleFaceRight(Rectangleface rect) { right.push_back(rect); }
 
@@ -31,6 +31,8 @@ struct TileVoxel
     Rectangleface getRightRF(int i) { return right.at(i); }
 
     Rectangleface getDownRF(int i) { return down.at(i); }
+
+    void clearAll();
 };
 
 #endif

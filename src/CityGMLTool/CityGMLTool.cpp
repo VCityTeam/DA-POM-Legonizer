@@ -4,6 +4,7 @@ CityGMLTool::CityGMLTool()
 {
 	this->modules.push_back(new Voxelizer("voxelizer"));
 	this->modules.push_back(new CityGMLTriangulate("triangulate"));
+	this->modules.push_back(new Heightmap("heightmap"));
 }
 
 CityGMLTool::~CityGMLTool()
@@ -32,20 +33,60 @@ Module* CityGMLTool::findModuleByName(const std::string name)
 
 
 
-void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gridmode, bool material, std::string inPutFileName, std::string outPutFileName, std::string fileNameCSV, bool debug) {
-
+void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gridmode, bool material, bool stepByStep, std::string inPutFileName, std::string outPutFileName, std::string fileNameCSV, bool debug) {
+	Heightmap* heightmap = static_cast<Heightmap*>(this->findModuleByName("heightmap"));
 	Voxelizer* voxelizer = static_cast<Voxelizer*>(this->findModuleByName("voxelizer"));
 	CityGMLTriangulate* triangulate = static_cast<CityGMLTriangulate*>(this->findModuleByName("triangulate"));
 	
-	voxelizer->init(mapSizeX, mapSizeY,horizontalStep, gridmode, material, debug);
+	
 	triangulate->initTriangleList(inPutFileName, debug);
 
 	triangulate->printBaseTriangleList(triangulate->getTriangleList());
 	
-	voxelizer->computeHeightMap(triangulate);
-	voxelizer->printHeightMap(fileNameCSV);
-	voxelizer->remesh();
-	voxelizer->printObj(outPutFileName);
+	heightmap->init(mapSizeX, mapSizeY, horizontalStep, debug);
+	heightmap->computeHeightMap(triangulate);
+	heightmap->printHeightMap(fileNameCSV);
+
+	
+	voxelizer->init(mapSizeX, mapSizeY, horizontalStep, gridmode, material, heightmap->tiles, stepByStep, debug );
+	voxelizer->sizeStep = heightmap->sizeStep;
+	voxelizer->sizeStepX = heightmap->sizeStepX;
+	voxelizer->sizeStepY = heightmap->sizeStepY;
+	//voxelizer->computeHeightMap(triangulate);
+	//voxelizer->printHeightMap(fileNameCSV);
+	if (stepByStep) {
+		for (int i = horizontalStep; i >= 0; i--) {
+
+			voxelizer->remesh();
+			voxelizer->printObj(outPutFileName + std::to_string(i + 1) + ".obj");
+			voxelizer->clearMeshInfo();
+			for (int j = 0; j < voxelizer->tiles.size(); j++) {
+
+				if (voxelizer->tiles.at(j).height > i * voxelizer->sizeStep) {
+					voxelizer->tiles.at(j).height = i * voxelizer->sizeStep;
+
+				}
+				voxelizer->max = i * voxelizer->sizeStep;
+			}
+		}
+	}
+	else {
+		voxelizer->remesh();
+		voxelizer->printObj(outPutFileName + ".obj");
+		voxelizer->clearMeshInfo();
+	}
+}
+
+void CityGMLTool::heightmap(int mapSizeX, int mapSizeY, int horizontalStep, std::string inPutFileName, std::string fileNameCSV, bool debug)
+{
+	Heightmap* heightmap = static_cast<Heightmap*>(this->findModuleByName("heightmap"));
+	CityGMLTriangulate* triangulate = static_cast<CityGMLTriangulate*>(this->findModuleByName("triangulate"));
+
+	heightmap->init(mapSizeX, mapSizeY, horizontalStep, debug);
+	heightmap->computeHeightMap(triangulate);
+	heightmap->printHeightMap(fileNameCSV);
+
+
 }
 
 

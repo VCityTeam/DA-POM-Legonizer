@@ -16,7 +16,3 @@ Rectangleface::Rectangleface(int a, int b, int c, int d, int normale, int uv1, i
 {
 }
 
-char* Rectangleface::printObj()
-{
-	return "";
-}

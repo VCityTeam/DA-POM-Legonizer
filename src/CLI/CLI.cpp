@@ -16,8 +16,8 @@ CLI::CLI(int argc, char* argv[])
 	_cliParams.push_back(CLIParam("--help", "Prints usage."));
 	_cliParams.push_back(CLIParam("--debug", "Turn on debug mode."));
 	_cliParams.push_back(CLIParam("--triangulate", "Triangulate CityGML object")); 
-	_cliParams.push_back(CLIParam("--voxelizer", "Voxelize a GML file", std::vector<bool>({ 1, 1, 1, 1, 1, 0, 0, 0})));
-
+	_cliParams.push_back(CLIParam("--voxelizer", "Voxelize a GML file", std::vector<bool>({ 1, 1, 1, 1, 1, 1, 0, 0, 0})));
+	_cliParams.push_back(CLIParam("--heightmap", "Raytracing from top using a grid", std::vector<bool>({ 1, 1, 1, 0, 0})));
 
 }
 
@@ -111,46 +111,38 @@ void CLI::processCmdLine()
 
 				std::cout << "Debug mode enabled" << std::endl;
 			}
-			else if (name == "--voxelizer") {
-				std::string output;
-				if (_cliParams[i]._args.size() > 6) {
-					std::string toMatch = ".obj";
-					if (_argv[1].size() >= toMatch.size() && _argv[1].compare(_argv[1].size() - toMatch.size(), toMatch.size(), toMatch) == 0)
-					{
-						this->_gmlFilename = this->_argv[6];
-						std::cout << "Make sure your outPut nameFile end with '.obj'" << std::endl;
-					}
-				}
-				if (_cliParams[i]._args.size() == 7) {
-					std::string toMatch = ".obj";
-					if (_argv[1].size() >= toMatch.size() && _argv[1].compare(_argv[1].size() - toMatch.size(), toMatch.size(), toMatch) == 0)
-					{
-						this->_gmlFilename = this->_argv[7];
-						std::cout << "Make sure your Heigtmap nameFile end with '.csv'" << std::endl;
-					}
-				}
-				
-				if (_cliParams[i]._args.size() == 5) {
-					_citygmltool->voxelize(
+			else if (name == "--heightmap") {
+				if (_cliParams[i]._args.size() == 3) {
+					_citygmltool->heightmap(
 						std::stoi(_cliParams[i]._args[0]),
 						std::stoi(_cliParams[i]._args[1]),
 						std::stoi(_cliParams[i]._args[2]),
-						std::stoi(_cliParams[i]._args[3]),
-						std::stoi(_cliParams[i]._args[4]),
 						_gmlFilename,
-						"output/result.obj",
 						"output/heightmap.csv",
 						_debugModule);
 				}
-				else if (_cliParams[i]._args.size() == 6) {
+				else if (_cliParams[i]._args.size() == 4) {
+					_citygmltool->heightmap(
+						std::stoi(_cliParams[i]._args[0]),
+						std::stoi(_cliParams[i]._args[1]),
+						std::stoi(_cliParams[i]._args[2]),
+						_gmlFilename,
+						_cliParams[i]._args[3],
+						_debugModule);
+				}
+			}
+			else if (name == "--voxelizer") {
+				std::string output;
+				if (_cliParams[i]._args.size() == 6) {
 					_citygmltool->voxelize(
 						std::stoi(_cliParams[i]._args[0]),
 						std::stoi(_cliParams[i]._args[1]),
 						std::stoi(_cliParams[i]._args[2]),
 						std::stoi(_cliParams[i]._args[3]),
 						std::stoi(_cliParams[i]._args[4]),
+						std::stoi(_cliParams[i]._args[5]),
 						_gmlFilename,
-						_cliParams[i]._args[5],
+						"output/result",
 						"output/heightmap.csv",
 						_debugModule);
 				}
@@ -161,9 +153,23 @@ void CLI::processCmdLine()
 						std::stoi(_cliParams[i]._args[2]),
 						std::stoi(_cliParams[i]._args[3]),
 						std::stoi(_cliParams[i]._args[4]),
+						std::stoi(_cliParams[i]._args[5]),
 						_gmlFilename,
-						_cliParams[i]._args[5],
 						_cliParams[i]._args[6],
+						"output/heightmap.csv",
+						_debugModule);
+				}
+				else if (_cliParams[i]._args.size() == 8) {
+					_citygmltool->voxelize(
+						std::stoi(_cliParams[i]._args[0]),
+						std::stoi(_cliParams[i]._args[1]),
+						std::stoi(_cliParams[i]._args[2]),
+						std::stoi(_cliParams[i]._args[3]),
+						std::stoi(_cliParams[i]._args[4]),
+						std::stoi(_cliParams[i]._args[5]),
+						_gmlFilename,
+						_cliParams[i]._args[6],
+						_cliParams[i]._args[7],
 						_debugModule);
 				}
 			}

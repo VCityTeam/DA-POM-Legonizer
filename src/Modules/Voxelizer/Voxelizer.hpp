@@ -5,11 +5,11 @@
 #include <list>
 #include "../Module.hpp"
 #include "./TileVoxel.hpp"
-#include "./TileType.hpp"
+#include "../Heightmap/TileType.hpp"
 #include "../Triangulate/Triangle.hpp"
 #include "../Triangulate/CityGMLTriangulate.hpp"    
 #include "Rectangleface.hpp"
-
+#include "../Heightmap/TileHeight.hpp"
 /*
 * @brief Voxelizing a GML file using raytracing from OSG
 */
@@ -27,19 +27,7 @@ struct Voxelizer : public Module
        *    @param Mode of re mesh (0 = one face between all height, 1 = vertical faces are cutted in stepSize)
        *    @param if true : enable material 
        */
-        void init(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material, bool debug);
-
-        /**
-       *	@brief Launch rayTracing and providing the heightmap
-       *	@param objectTriangleList
-       */
-        void computeHeightMap(CityGMLTriangulate* cityGMLTriangulate);
-
-        /**
-        *	@brief Print heigtMap in CSV
-        *	@param Filename.csv
-        */
-        void printHeightMap(const std::string);
+        void init(int mapSizeX, int mapSizeY, int horizontalStep, int gridmode, bool material, std::vector<TileHeight> tileHeight, bool stepByStep, bool debug);
 
         /*
         *   @brief Remesh with the heightmap
@@ -51,6 +39,22 @@ struct Voxelizer : public Module
         *   @param Filename.obj
         */
         void printObj(const std::string);
+
+        /*
+        *   @brief Print all the structure remesh in OBJ
+        *   @param Filename.obj
+        */
+        void clearMeshInfo();
+
+        /*
+        *   @brief if true, print the obj step-by-step 
+        */
+        bool stepByStep;
+
+        /*
+        *   @brief max step in step-by-step mode
+        */
+        double max;
 
         /*
         *   @brief if true, enable debugging
