@@ -144,6 +144,7 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
     | Nombre de découpage en hauteur | non | int | 50 | horizontalStep |
     | Mode de remaillage | non | int | 1 | gridmode|
     | Matériaux différents pour le sol et les bâtiments | non | bool | 1 | material |
+    | Ecrit un obj pour chaque hauteur | non | bool | 1 | stepByStep |
     | Ecrit un .obj par hauteur ( horizontaleStep ) | non | bool | 0 | material |
     | Nom de fichier en sortie (.obj) | oui | std::string | output/result.obj | outPutFileName
     | Nom de fichier en sortie de la heigtmap (.csv) | oui | std::string | output/heightmap.csv| fileNameCSV
