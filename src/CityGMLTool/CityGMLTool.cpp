@@ -45,13 +45,13 @@ void CityGMLTool::voxelize(int mapSizeX, int mapSizeY,int horizontalStep, int gr
 	
 	heightmap->init(mapSizeX, mapSizeY, horizontalStep, debug);
 	heightmap->computeHeightMap(triangulate);
-	heightmap->printHeightMap(fileNameCSV);
+	heightmap->printHeightMap2(fileNameCSV);
 
 	
 	voxelizer->init(mapSizeX, mapSizeY, horizontalStep, gridmode, material, heightmap->tiles, stepByStep, debug );
 	voxelizer->sizeStep = heightmap->sizeStep;
-	voxelizer->sizeStepX = heightmap->sizeStepX;
-	voxelizer->sizeStepY = heightmap->sizeStepY;
+	voxelizer->sizeStepX = heightmap->sizeStepY;
+	voxelizer->sizeStepY = heightmap->sizeStepX;
 	//voxelizer->computeHeightMap(triangulate);
 	//voxelizer->printHeightMap(fileNameCSV);
 	if (stepByStep) {
@@ -84,7 +84,7 @@ void CityGMLTool::heightmap(int mapSizeX, int mapSizeY, int horizontalStep, std:
 
 	heightmap->init(mapSizeX, mapSizeY, horizontalStep, debug);
 	heightmap->computeHeightMap(triangulate);
-	heightmap->printHeightMap(fileNameCSV);
+	heightmap->printHeightMap2(fileNameCSV);
 
 
 }

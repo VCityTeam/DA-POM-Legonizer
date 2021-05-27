@@ -68,6 +68,8 @@ void Heightmap::computeHeightMap(CityGMLTriangulate* cityGMLTriangulate)
 	}
 
 	sizeStep = (zMax - zMin)/ horizontalStep;
+	std::cout << std::endl << "sizeStepX = " << sizeStepX << std::endl;
+	std::cout << std::endl << "sizeStepY = " << sizeStepY << std::endl;
 	if(debug)
 		std::cout <<std::endl<< "sizeStep = " << sizeStep << std::endl;
 	std::cout << std::endl << "Progression of thread 0 " << std::endl;
@@ -93,9 +95,9 @@ void Heightmap::computeHeightMap(CityGMLTriangulate* cityGMLTriangulate)
 	}
 
 	if (debug) {
-		for (int i = 0; i < mapsize.y; i++) {
-			for (int j = 0; j < mapsize.x; j++) {
-				std::cout << std::fixed << std::setprecision(3) << tiles.at(j + i * mapsize.x).height << "|";
+		for (int i = 0; i < mapsize.x; i++) {
+			for (int j = 0; j < mapsize.y; j++) {
+				std::cout << std::fixed << std::setprecision(3) << tiles.at(j + i * mapsize.y).height << "|";
 			}
 			std::cout << std::endl;
 		}
@@ -112,9 +114,26 @@ void Heightmap::printHeightMap(const std::string filename)
 	myfile.open(filename);
 	myfile.clear();
 	if (!filename.empty()) {
-		for (int i = 0; i < mapsize.y; i++) {
-			for (int j = 0; j < mapsize.x; j++) {
-				myfile << tiles.at(j + i * mapsize.x).height << ";";
+		for (int i = 0; i < mapsize.x; i++) {
+			for (int j = 0; j < mapsize.y; j++) {
+				myfile << tiles.at(j + i * mapsize.y).height << ";";
+			}
+			myfile << std::endl;
+		}
+	}
+	myfile.close();
+}
+
+void Heightmap::printHeightMap2(const std::string filename)
+{
+	std::cout << ":::::::::: Writing Heightmap in " << filename << "::::::::::" << std::endl;
+	std::ofstream myfile;
+	myfile.open(filename);
+	myfile.clear();
+	if (!filename.empty()) {
+		for (int i = 0; i < mapsize.x; i++) {
+			for (int j = 0; j < mapsize.y; j++) {
+				myfile << tiles.at(j + i * mapsize.y).height / sizeStep << ";";
 			}
 			myfile << std::endl;
 		}

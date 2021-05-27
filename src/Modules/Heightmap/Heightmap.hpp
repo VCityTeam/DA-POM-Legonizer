@@ -41,6 +41,12 @@ struct Heightmap : public Module
         */
         void printHeightMap(const std::string);
 
+        /**
+        *	@brief Print heigtMap in CSV round for minecraft
+        *	@param Filename.csv
+        */
+        void printHeightMap2(const std::string);
+
         /*
         *   @brief if true, enable debugging
         */

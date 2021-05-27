@@ -23,7 +23,7 @@ void Voxelizer::init(int mapSizeX, int mapSizeY, int horizontalStep, int gridmod
 
 	for (int i = 0; i < mapSizeX; i++) {
 		for (int j = 0; j < mapSizeY; j++) {
-			tiles.push_back(TileVoxel(tileHeight.at(i + j * mapSizeY).height));
+			tiles.push_back(TileVoxel(tileHeight.at(j + i * mapSizeY).height));
 		}
 	}
 	tileHeight.clear();
