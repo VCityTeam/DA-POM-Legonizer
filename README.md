@@ -8,6 +8,7 @@ Bonjour,  bienvenue sur le projet Legonizer. Ce projet a pour but de recuperer d
 * [Modules](#modules)
 * [Debug](#debug)
 * [Triangulate](#triangulate)
+* [Heightmap](#heightmap)
 * [Voxelizer](#voxelizer)
 
 *******
