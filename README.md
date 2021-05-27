@@ -108,7 +108,7 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
     ```
     #### Exemples : 
       * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --heightmap 100 100 50 ``` 
-      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --heightmap 100 100 50 output/result.obj ```
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --heightmap 100 100 50 output/result.csv ```
   
   * ### Objectifs
     Transformer un fichier GML en une heightmap
@@ -130,8 +130,8 @@ Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuratio
     ```
     #### Exemples : 
       * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 0``` 
-      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 0 output/result.obj ```
-      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 0 output/result.obj output/heightmap.csv ```
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 0 output/result ```
+      * ``` ./data/citygml/99_MAIRIE_VAULX_EN_VELIN.gml --voxelizer 100 100 50 1 1 0 output/result output/heightmap.csv ```
   
   * ### Objectifs
     Transformer un fichier GML en une heightmap puis en un maillage voxélisé en .obj
