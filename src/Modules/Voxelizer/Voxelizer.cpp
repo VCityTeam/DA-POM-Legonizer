@@ -1,7 +1,7 @@
 ﻿#include "Voxelizer.hpp"
 #include <vector>
-#include "filters/raytracing/RayTracing.hpp"
-#include "filters/raytracing/Hit.hpp"
+#include "../Heightmap/filters/raytracing/RayTracing.hpp"
+#include "../Heightmap/filters/raytracing/Hit.hpp"
 #include <iostream>
 #include <fstream>
 #include <math.h>

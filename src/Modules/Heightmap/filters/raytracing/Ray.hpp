@@ -9,7 +9,7 @@
 
 #include "../../../../CityModel/Vecs.hpp"
 #include "../../filters_export.h"
-#include <windows.h>
+
 struct Hit;
 struct RayCollection;
 struct ViewPoint;

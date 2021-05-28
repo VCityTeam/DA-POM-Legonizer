@@ -6,7 +6,7 @@
 #include "Ray.hpp"
 #include "Hit.hpp"
 #include "../../../Triangulate/Triangle.hpp"
-#include <windows.h>
+
 //Ray
 
 Ray::Ray(TVec3d ori, TVec3d dir, int id)

@@ -42,8 +42,8 @@ public:
   void loadT(const std::string& filepath);
   //osg::ref_ptr<osg::Node> buildOsgData();
 
-  citygml::CityModel* Tile::getCityModel();
-  const citygml::CityModel* Tile::getCityModel() const;
+  citygml::CityModel* getCityModel();
+  const citygml::CityModel* getCityModel() const;
 
   /// Get tile name
   const std::string& getName() const;

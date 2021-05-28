@@ -29,6 +29,7 @@ Module* CityGMLTool::findModuleByName(const std::string name)
 			return this->modules[i];
 		}
 	}
+	return this->modules[0];
 }
 
 
