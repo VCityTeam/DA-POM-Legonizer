@@ -72,7 +72,13 @@ sudo apt install libxml2-dev
 
 Le répertoire d'include de la bibliothèque sera probablement : `/usr/include/libxml2`.
 
-Ensuite, vous pouvez ouvrir le projet dans votre IDE favori mais la configuration des directives d'include, arguments de la ligne de commande, etc sera spécifique à votre IDE.
+```bash
+sudo apt-get install libglew-dev
+```
+
+Puis ```make```
+
+
 
 *******
 
