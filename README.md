@@ -64,7 +64,7 @@ Pour démarrer rapidement avec Visual Studio :
 * Si jamais vous avez une erreur de redefinition de type : `Error 13 error C2086: 'int APIENTRY' : redefinition C:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\include\GL\gl.h 1153`. Ajouté dans la page de propriétés du projet à l'onglet "C/C++" > "Préprocesseur" > "Définitions de préprocesseur" : `WIN32`.
 ### Linux
 
-Si vous n'avez pas [LibXML2](http://www.xmlsoft.org/index.html) d'installé : (sur Ubuntu)
+Si vous n'avez pas [LibXML2](http://www.xmlsoft.org/index.html) d'installé (sur Ubuntu) : 
 
 ```bash
 sudo apt install libxml2-dev
